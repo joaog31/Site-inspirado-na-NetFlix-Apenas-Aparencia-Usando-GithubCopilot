@@ -308,34 +308,30 @@ figcaption {
 }
 
 .manage-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
-    border: 2px solid #e50914;
-    background: rgba(229, 9, 20, 0.2);
-    color: #ff6b75;
-    font-size: 1rem;
+    border: 1px solid var(--button-border);
+    background: var(--button-bg);
+    color: var(--button-color);
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
     font-weight: 700;
-    border-radius: 6px;
+    letter-spacing: 0.3px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
 }
 
 .manage-btn:hover {
-    background: rgba(229, 9, 20, 0.3);
-    border-color: #ff6b75;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3);
+    transform: translateY(-1px);
+    border-color: rgba(229, 9, 20, 0.7);
+    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.15);
 }
 
 .manage-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
 }
 
 .manage-btn .icon {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
 }
 
 /* ===========================
