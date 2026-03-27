@@ -170,36 +170,110 @@ class CardHoverVideoController {
         this.img = img;
         this.videoId = videoId;
         this.playTimeout = null;
+        this.isTouchMode = this.detectTouchMode();
+
+        this.handleCardTap = (event) => this.onCardTap(event);
+        this.handleDocumentTap = (event) => this.onDocumentTap(event);
     }
 
     bind() {
+        if (this.isTouchMode) {
+            this.card.addEventListener('click', this.handleCardTap);
+            document.addEventListener('click', this.handleDocumentTap);
+            return;
+        }
+
         this.card.addEventListener('mouseenter', () => this.onMouseEnter());
         this.card.addEventListener('mouseleave', () => this.onMouseLeave());
     }
 
+    detectTouchMode() {
+        return globalThis.matchMedia?.('(hover: none), (pointer: coarse)').matches ?? false;
+    }
+
     onMouseEnter() {
+        this.applyScaleOrigin();
+        this.startPlayback(600);
+    }
+
+    onMouseLeave() {
+        this.closeCardVisualState();
+    }
+
+    onCardTap(event) {
+        const interactiveTarget = event.target.closest('.btn-icon, .movie-summary, .card-details p, .card-details span, .card-details strong');
+
+        if (interactiveTarget) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const isOpen = this.card.classList.contains('mobile-open');
+        if (isOpen) {
+            this.closeMobileCard();
+            return;
+        }
+
+        if (CardHoverVideoController.activeMobileCard && CardHoverVideoController.activeMobileCard !== this) {
+            CardHoverVideoController.activeMobileCard.closeMobileCard();
+        }
+
+        this.openMobileCard();
+    }
+
+    onDocumentTap(event) {
+        if (!this.card.classList.contains('mobile-open')) {
+            return;
+        }
+
+        if (!this.card.contains(event.target)) {
+            this.closeMobileCard();
+        }
+    }
+
+    openMobileCard() {
+        this.applyScaleOrigin();
+        this.card.classList.add('mobile-open');
+        this.startPlayback(250);
+        CardHoverVideoController.activeMobileCard = this;
+    }
+
+    closeMobileCard() {
+        this.closeCardVisualState();
+        if (CardHoverVideoController.activeMobileCard === this) {
+            CardHoverVideoController.activeMobileCard = null;
+        }
+    }
+
+    applyScaleOrigin() {
         const rect = this.card.getBoundingClientRect();
         const viewportWidth = globalThis.innerWidth;
 
+        this.card.classList.remove('origin-left', 'origin-right');
         if (rect.left < 100) {
             this.card.classList.add('origin-left');
         } else if (rect.right > viewportWidth - 100) {
             this.card.classList.add('origin-right');
         }
+    }
 
+    startPlayback(delayMs) {
+        clearTimeout(this.playTimeout);
         this.playTimeout = setTimeout(() => {
             this.iframe.src = this.createEmbedUrl();
             this.iframe.classList.add('playing');
             this.img.classList.add('playing-video');
-        }, 600);
+        }, delayMs);
     }
 
-    onMouseLeave() {
+    closeCardVisualState() {
         clearTimeout(this.playTimeout);
         this.iframe.classList.remove('playing');
         this.img.classList.remove('playing-video');
         this.iframe.src = '';
-        this.card.classList.remove('origin-left', 'origin-right');
+        this.card.classList.remove('mobile-open', 'origin-left', 'origin-right');
         closeSummaryIfOpen(this.card);
     }
 
