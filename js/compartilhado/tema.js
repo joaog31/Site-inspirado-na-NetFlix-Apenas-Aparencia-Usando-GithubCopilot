@@ -11,12 +11,15 @@ const THEMES = Object.freeze({
 /* Chave usada para salvar o tema no localStorage */
 const STORAGE_KEY = 'netflix-theme';
 
+const TEMAS = THEMES;
+const CHAVE_ARMAZENAMENTO = STORAGE_KEY;
+
 /* ===========================
    CAMADA DE PERSISTENCIA
    =========================== */
 
 /* Responsavel por ler e escrever o tema salvo no navegador */
-class ThemeStorage {
+class ArmazenamentoTema {
     constructor(storage, key) {
         this.storage = storage; /* Objeto de armazenamento (localStorage) */
         this.key = key;         /* Chave de armazenamento */
@@ -42,7 +45,7 @@ class ThemeStorage {
    =========================== */
 
 /* Responsavel por atualizar o DOM conforme o tema ativo */
-class ThemeView {
+class VisaoTema {
     constructor(bodyElement, toggleElement) {
         this.bodyElement = bodyElement;     /* Referencia ao body */
         this.toggleElement = toggleElement; /* Referencia ao botao */
@@ -74,7 +77,7 @@ class ThemeView {
    =========================== */
 
 /* Coordena regra de negocio entre armazenamento e interface */
-class ThemeController {
+class ControladorTema {
     constructor(view, storage, defaultTheme = THEMES.DARK) {
         this.view = view;                 /* Camada de interface */
         this.storage = storage;           /* Camada de persistencia */
@@ -108,8 +111,8 @@ const toggleButton = document.getElementById('theme-toggle');
 
 /* So inicializa a funcionalidade se os elementos existirem */
 if (body && toggleButton) {
-    const storage = new ThemeStorage(localStorage, STORAGE_KEY);
-    const view = new ThemeView(body, toggleButton);
-    const controller = new ThemeController(view, storage);
+    const storage = new ArmazenamentoTema(localStorage, CHAVE_ARMAZENAMENTO);
+    const view = new VisaoTema(body, toggleButton);
+    const controller = new ControladorTema(view, storage, TEMAS.DARK);
     controller.init();
 }

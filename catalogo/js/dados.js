@@ -2,7 +2,7 @@
    BASE DE DADOS DO CATALOGO
    =========================== */
 
-export const categories = [
+export const categorias = [
     /* Categoria principal com destaque de animes/obras epicas */
     {
         title: "Épicos",

@@ -10,7 +10,7 @@ function randomInt(min, max, rng = Math.random) {
 }
 
 /* Extrai o ID do YouTube em links watch, youtu.be, shorts, embed e live */
-export function getYouTubeId(url, defaultId = DEFAULT_YOUTUBE_ID) {
+export function obterIdYouTube(url, defaultId = DEFAULT_YOUTUBE_ID) {
     if (!url) {
         return defaultId;
     }
@@ -53,16 +53,16 @@ export function getYouTubeId(url, defaultId = DEFAULT_YOUTUBE_ID) {
 }
 
 /* Gera pontuacao de relevancia exibida no card */
-export function getRandomMatchScore(rng = Math.random) {
+export function obterPontuacaoRelevanciaAleatoria(rng = Math.random) {
     return randomInt(80, 99, rng);
 }
 
 /* Gera duracao aleatoria para cards sem progresso */
-export function getRandomDuration(hasProgress, rng = Math.random) {
+export function obterDuracaoAleatoria(hasProgress, rng = Math.random) {
     return hasProgress ? '10 temporadas' : `2h ${randomInt(0, 59, rng)}m`;
 }
 
 /* Alterna classificacao etaria exibida no card */
-export function getRandomAgeBadge(rng = Math.random) {
+export function obterClassificacaoEtariaAleatoria(rng = Math.random) {
     return rng() > 0.5 ? { text: 'A16', class: 'red-accent' } : { text: '16', class: '' };
 }

@@ -16,6 +16,35 @@ Este projeto esta sendo desenvolvido com apoio de **IA GitHub Copilot** para ger
 - Evoluir estrutura de pagina e estilos visuais
 - Explorar apoio de IA no processo de programacao
 
+## Estrutura de pastas
+
+```
+ativos/
+	perfis/
+catalogo/
+	catalogo.html
+	catalogo.css
+	minha-lista.html
+	js/
+		principal.js
+		minha-lista.js
+		busca.js
+		dados.js
+		utilitarios.js
+		componentes/
+			Carrossel.js
+			Cartao.js
+		dominio/
+			perfil.js
+			minha-lista.js
+js/
+	compartilhado/
+		tema.js
+		selecao-perfil.js
+index.html
+style.css
+```
+
 ## Observacao
 
 Este projeto e apenas para estudo e nao possui qualquer vinculacao oficial com a Netflix.

@@ -1,66 +1,12 @@
-import { getYouTubeId, getRandomMatchScore, getRandomDuration, getRandomAgeBadge } from '../utils.js';
+import { obterIdYouTube, obterPontuacaoRelevanciaAleatoria, obterDuracaoAleatoria, obterClassificacaoEtariaAleatoria } from '../utilitarios.js';
+import { criarIdObra, obterChaveMinhaLista, ArmazenamentoMinhaLista } from '../dominio/minha-lista.js';
+import { obterIdPerfilAtivo } from '../dominio/perfil.js';
 
 /* ===========================
     HELPERS DE DADOS E MARKUP
     =========================== */
 
 let cardSequence = 0;
-const PROFILE_ID_KEY = 'perfilAtivoId';
-const MY_LIST_STORAGE_KEY = 'catalogo-minha-lista';
-
-/* Monta a chave final da lista com escopo por perfil */
-function getMyListStorageKey(profileId = 'default') {
-    return `${MY_LIST_STORAGE_KEY}-${profileId}`;
-}
-
-/* Recupera o identificador do perfil ativo no catalogo */
-function getActiveProfileId(storage) {
-    return storage.getItem(PROFILE_ID_KEY) || 'default';
-}
-
-/* Persiste e consulta a lista pessoal do usuario */
-class MyListStorage {
-    constructor(storage, key = MY_LIST_STORAGE_KEY) {
-        this.storage = storage;
-        this.key = key;
-    }
-
-    getAll() {
-        const rawValue = this.storage.getItem(this.key);
-
-        if (!rawValue) {
-            return [];
-        }
-
-        try {
-            const parsedValue = JSON.parse(rawValue);
-            return Array.isArray(parsedValue) ? parsedValue : [];
-        } catch {
-            return [];
-        }
-    }
-
-    has(workId) {
-        return this.getAll().includes(workId);
-    }
-
-    toggle(workId) {
-        const entries = this.getAll();
-        const nextEntries = entries.includes(workId)
-            ? entries.filter((entry) => entry !== workId)
-            : [...entries, workId];
-
-        this.storage.setItem(this.key, JSON.stringify(nextEntries));
-        return nextEntries.includes(workId);
-    }
-}
-
-/* Gera identificador unico para cada obra no armazenamento */
-function createWorkId(item) {
-    const baseTitle = (item.title || '').trim().toLowerCase().replaceAll(' ', '-');
-    const videoId = getYouTubeId(item.youtube);
-    return `${baseTitle}-${videoId}`;
-}
 
 /* Atualiza aparencia e acessibilidade do botao de Minha lista */
 function renderMyListButton(buttonElement, isInMyList, movieTitle) {
@@ -162,8 +108,6 @@ function bindMyListToggle(detailsElement, movieInfo, workId, myListStorage) {
 
         const isInMyList = myListStorage.toggle(workId);
         renderMyListButton(myListButton, isInMyList, movieInfo.title);
-
-        document.dispatchEvent(new CustomEvent('my-list-updated'));
     });
 }
 
@@ -267,14 +211,14 @@ class CardHoverVideoController {
 /* Gera metadados aleatorios exibidos na linha de informacoes */
 function createMetadata(item, randomSource = Math.random) {
     return {
-        matchScore: getRandomMatchScore(randomSource),
-        duration: getRandomDuration(item.progress, randomSource),
-        ageBadge: getRandomAgeBadge(randomSource)
+        matchScore: obterPontuacaoRelevanciaAleatoria(randomSource),
+        duration: obterDuracaoAleatoria(item.progress, randomSource),
+        ageBadge: obterClassificacaoEtariaAleatoria(randomSource)
     };
 }
 
 /* Factory principal de card */
-export function createCard(item, randomSource = Math.random) {
+    export function criarCartao(item, randomSource = Math.random) {
     const card = document.createElement('div');
     card.className = 'movie-card';
     cardSequence += 1;
@@ -283,15 +227,16 @@ export function createCard(item, randomSource = Math.random) {
         card.classList.add('has-progress');
     }
 
-    const activeProfileId = getActiveProfileId(localStorage);
-    const myListStorage = new MyListStorage(localStorage, getMyListStorageKey(activeProfileId));
-    const workId = createWorkId(item);
+    const activeProfileId = obterIdPerfilAtivo(localStorage);
+    const myListStorage = new ArmazenamentoMinhaLista(localStorage, obterChaveMinhaLista(activeProfileId));
+    const workId = criarIdObra(item);
     const isInMyList = myListStorage.has(workId);
-    const videoId = getYouTubeId(item.youtube);
+    const videoId = obterIdYouTube(item.youtube);
     const { img, iframe } = createMediaElements(item, videoId);
     const metadata = createMetadata(item, randomSource);
     const movieInfo = getMovieInfo(item);
     const details = createDetailsElement(item, metadata, movieInfo, `movie-card-${cardSequence}`, isInMyList);
+    card.dataset.workId = workId;
 
     card.appendChild(iframe);
     card.appendChild(img);

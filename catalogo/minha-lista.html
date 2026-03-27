@@ -28,13 +28,15 @@
         </div>
         <div class="navbar-right">
             <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Modo Claro">Modo Claro</button>
-            <i class="fas fa-search icon"></i>
+            <button id="search-trigger" class="icon-btn" type="button" aria-label="Buscar obras">
+                <i class="fas fa-search icon"></i>
+            </button>
             <div class="nav-notification">
                 <i class="fas fa-bell icon"></i>
                 <span class="notification-badge">42</span>
             </div>
             <a href="../index.html" class="profile-menu" aria-label="Perfil" style="text-decoration: none; color: inherit;">
-                <img class="profile-icon" src="../Assets/profile1.svg" alt="Avatar do perfil" aria-hidden="true">
+                <img class="profile-icon" src="../ativos/perfis/profile1.svg" alt="Avatar do perfil" aria-hidden="true">
                 <i class="fas fa-caret-down icon profile-caret" aria-hidden="true"></i>
             </a>
         </div>
@@ -51,6 +53,22 @@
 
         <section id="my-list-content" class="sliders-container my-list-content" aria-live="polite"></section>
     </main>
+
+    <!-- ===========================
+         BUSCA DE OBRAS
+         =========================== -->
+    <section id="search-panel" class="search-panel" hidden>
+        <div class="search-panel-box">
+            <div class="search-panel-header">
+                <h2>Buscar obra</h2>
+                <button id="search-close" class="icon-btn" type="button" aria-label="Fechar busca">
+                    <i class="fas fa-times icon"></i>
+                </button>
+            </div>
+            <input id="search-input" class="search-input" type="text" placeholder="Digite título, parte do nome ou com erro de digitação">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </section>
 
     <!-- ===========================
          RODAPE
@@ -78,8 +96,8 @@
         </div>
     </footer>
 
-    <script type="module" src="js/my-list.js"></script>
-    <script src="../theme.js" defer></script>
+    <script type="module" src="js/minha-lista.js"></script>
+    <script src="../js/compartilhado/tema.js" defer></script>
 </body>
 
 </html>

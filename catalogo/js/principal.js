@@ -1,49 +1,11 @@
-import { categories } from './data.js';
-import { createCarousel } from './components/Carousel.js';
+import { categorias } from './dados.js';
+import { criarCarrossel } from './componentes/Carrossel.js';
+import { inicializarBusca } from './busca.js';
+import { ArmazenamentoPerfilAtivo, normalizarCaminhoImagemPerfil } from './dominio/perfil.js';
 
 /* ===========================
     CONFIGURACAO E CONSTANTES
     =========================== */
-
-const PROFILE_NAME_KEY = 'perfilAtivoNome';
-const PROFILE_IMAGE_KEY = 'perfilAtivoImagem';
-const PROFILE_ID_KEY = 'perfilAtivoId';
-
-/* Recupera o perfil ativo salvo no localStorage */
-class ActiveProfileStorage {
-    constructor(storage, nameKey = PROFILE_NAME_KEY, imageKey = PROFILE_IMAGE_KEY, idKey = PROFILE_ID_KEY) {
-        this.storage = storage;
-        this.nameKey = nameKey;
-        this.imageKey = imageKey;
-        this.idKey = idKey;
-    }
-
-    get() {
-        const name = this.storage.getItem(this.nameKey);
-        const image = this.storage.getItem(this.imageKey);
-        const id = this.storage.getItem(this.idKey);
-
-        if (!name) {
-            return null;
-        }
-
-        return { name, image, id };
-    }
-}
-
-/* Ajusta caminho da imagem salva na home para funcionar dentro de /catalogo */
-function normalizeProfileImagePath(imagePath) {
-    if (!imagePath) {
-        return '../Assets/profile1.svg';
-    }
-
-    const isAbsoluteUrl = /^https?:\/\//i.test(imagePath);
-    if (isAbsoluteUrl || imagePath.startsWith('../')) {
-        return imagePath;
-    }
-
-    return `../${imagePath.replace(/^\.\//, '')}`;
-}
 
 /* Atualiza informacoes de acessibilidade do menu de perfil */
 class ProfileHeaderView {
@@ -61,7 +23,7 @@ class ProfileHeaderView {
         this.profileMenuElement.setAttribute('aria-label', label);
         this.profileMenuElement.title = label;
 
-        const imageSrc = profile ? normalizeProfileImagePath(profile.image) : '../Assets/profile1.svg';
+        const imageSrc = profile ? normalizarCaminhoImagemPerfil(profile.image) : '../ativos/perfis/profile1.svg';
         this.profileImageElement.src = imageSrc;
         this.profileImageElement.alt = label;
     }
@@ -102,18 +64,49 @@ class CatalogApp {
     }
 }
 
+/* Destaca e rola ate o card selecionado na busca */
+function focusWorkCard(workId) {
+    const card = document.querySelector(`.movie-card[data-work-id="${workId}"]`);
+
+    if (!card) {
+        return;
+    }
+
+    card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    card.classList.add('search-highlight');
+
+    setTimeout(() => {
+        card.classList.remove('search-highlight');
+    }, 1800);
+}
+
+/* Inicializa a interface de busca com tolerancia a erros */
+function setupSearch() {
+    inicializarBusca({
+        triggerButton: document.getElementById('search-trigger'),
+        panel: document.getElementById('search-panel'),
+        closeButton: document.getElementById('search-close'),
+        input: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('search-results'),
+        getSourceItems: () => categorias.flatMap((category) => category.items),
+        onSelectResult: (_item, workId) => focusWorkCard(workId)
+    });
+}
+
 /* Bootstrap da aplicacao */
 document.addEventListener('DOMContentLoaded', () => {
-    const profileStorage = new ActiveProfileStorage(localStorage);
+    const profileStorage = new ArmazenamentoPerfilAtivo(localStorage);
     const headerView = new ProfileHeaderView(
         document.querySelector('.profile-menu'),
         document.querySelector('.profile-icon')
     );
     const catalogRenderer = new CatalogRenderer(
         document.getElementById('main-content'),
-        createCarousel
+        criarCarrossel
     );
 
     const app = new CatalogApp(profileStorage, headerView, catalogRenderer);
-    app.init(categories);
+    app.init(categorias);
+
+    setupSearch();
 });

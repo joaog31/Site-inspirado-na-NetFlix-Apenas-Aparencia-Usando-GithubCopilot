@@ -1,4 +1,4 @@
-import { createCard } from './Card.js';
+import { criarCartao } from './Cartao.js';
 
 /* ===========================
     HELPERS DE ESTRUTURA
@@ -35,7 +35,7 @@ function createRow(items, cardFactory) {
 }
 
 /* Factory principal de carrossel */
-export function createCarousel(category, cardFactory = createCard) {
+export function criarCarrossel(category, cardFactory = criarCartao) {
     const section = document.createElement('div');
     section.className = 'slider-section';
 
