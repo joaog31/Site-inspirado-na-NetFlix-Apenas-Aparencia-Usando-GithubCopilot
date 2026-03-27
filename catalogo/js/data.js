@@ -3,35 +3,35 @@ export const categories = [
         title: "Épicos",
         items: [
             {
-                title: "Forrest Gump",
-                releaseDate: "06/07/1994",
-                communityRating: "8.8/10",
-                summary: "A vida extraordinária de Forrest cruza décadas da história dos EUA com encontros marcantes, amor e superação.",
-                img: "https://upload.wikimedia.org/wikipedia/en/6/67/Forrest_Gump_poster.jpg", top10: true, badge: "Clássico", badgeColor: "red", progress: 0,
-                youtube: "https://www.youtube.com/watch?v=bLvqoHBptjg"
+                title: "Fate/strange Fake",
+                releaseDate: "02/07/2023",
+                communityRating: "8.2/10",
+                summary: "Uma nova Guerra do Santo Graal começa em Snowfield, com Servos e Mestres em um conflito imprevisível e brutal.",
+                img: "https://imgs.search.brave.com/BhJlCdCdbu6yvmwbaUcO5bRU7KE13ynDG6e8MktYhvo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMwLmNicmltYWdl/cy5jb20vd29yZHBy/ZXNzL3dwLWNvbnRl/bnQvdXBsb2Fkcy8y/MDI0LzEyL3VudGl0/bGVkLTMuanBnP3E9/NzAmZml0PWNyb3Am/dz04MjUmZHByPTE", top10: true, badge: "Em alta", badgeColor: "red", progress: 0,
+                youtube: "https://youtu.be/SJcXlX41xG4?si=n0faYE-VDyDp8MRi"
             },
             {
-                title: "Gladiador",
-                releaseDate: "05/05/2000",
-                communityRating: "8.5/10",
-                summary: "Após ser traído e perder a família, o general Maximus vira gladiador e busca justiça contra o novo imperador de Roma.",
-                img: "https://aventurasnahistoria.com.br/wp-content/uploads/entretenimento/gladiador_2_VvnGVes.jpg", progress: 0,
+                title: "My Hero Academia",
+                releaseDate: "03/04/2016",
+                communityRating: "8.3/10",
+                summary: "Em um mundo de superpoderes, Izuku Midoriya herda um dom lendário e entra na principal escola de heróis.",
+                img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=1200&auto=format&fit=crop", progress: 0,
                 youtube: "https://www.youtube.com/watch?v=cXg62-t8BWs"
             },
             {
-                title: "Senhor dos Anéis: A Sociedade do Anel",
-                releaseDate: "19/12/2001",
-                communityRating: "8.8/10",
-                summary: "Frodo e seus aliados partem em uma jornada para destruir o Um Anel antes que Sauron domine a Terra-média.",
-                img: "https://imgs.search.brave.com/TeT72W8M7-52OcpmjzpkDbdZMqJ5bg3j-Pg9SFXZQE4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pcnMu/d3d3Lndhcm5lcmJy/b3MuY29tLmJyL2tl/eWFydC1qcGVnL21v/dmllcy9tZWRpYS9i/cm93c2VyL0xPVFJf/Rk9UUl9rZXlhcnQu/SlBFRw", progress: 0,
+                title: "Sentenced to Be a Hero",
+                releaseDate: "Lançado em 2025",
+                communityRating: "8.0/10",
+                summary: "Condenados transformados em soldados enfrentam missões suicidas para reduzir suas sentenças em uma guerra cruel, agora em exibição.",
+                img: "https://images.unsplash.com/photo-1505685296765-3a2736de412f?q=80&w=1200&auto=format&fit=crop", progress: 0,
                 youtube: "https://www.youtube.com/watch?v=zckJCxYxn1g"
             },
             {
-                title: "Coração Valente",
-                releaseDate: "24/05/1995",
-                communityRating: "8.3/10",
-                summary: "William Wallace lidera a resistência escocesa contra a opressão inglesa, tornando-se símbolo de coragem e liberdade.",
-                img: "https://ingresso-a.akamaihd.net/img/cinema/cartaz/14413-destaque.jpg", progress: 0,
+                title: "Jujutsu Kaisen",
+                releaseDate: "03/10/2020",
+                communityRating: "8.6/10",
+                summary: "Yuji Itadori entra no mundo dos feiticeiros para combater maldições após se tornar hospedeiro de Sukuna.",
+                img: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1200&auto=format&fit=crop", progress: 0,
                 youtube: "https://www.youtube.com/watch?v=a06zxOyQrAs"
             },
         ]
