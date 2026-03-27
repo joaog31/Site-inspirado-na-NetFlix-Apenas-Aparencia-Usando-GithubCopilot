@@ -15,24 +15,24 @@ export const categories = [
                 releaseDate: "05/05/2000",
                 communityRating: "8.5/10",
                 summary: "Após ser traído e perder a família, o general Maximus vira gladiador e busca justiça contra o novo imperador de Roma.",
-                img: "https://upload.wikimedia.org/wikipedia/en/8/8d/Gladiator_ver1.jpg", progress: 0,
-                youtube: "https://www.youtube.com/watch?v=owK1qxDselE"
+                img: "https://aventurasnahistoria.com.br/wp-content/uploads/entretenimento/gladiador_2_VvnGVes.jpg", progress: 0,
+                youtube: "https://www.youtube.com/watch?v=cXg62-t8BWs"
             },
             {
                 title: "Senhor dos Anéis: A Sociedade do Anel",
                 releaseDate: "19/12/2001",
                 communityRating: "8.8/10",
                 summary: "Frodo e seus aliados partem em uma jornada para destruir o Um Anel antes que Sauron domine a Terra-média.",
-                img: "https://upload.wikimedia.org/wikipedia/en/f/fb/Lord_Rings_Fellowship_Ring.jpg", progress: 0,
-                youtube: "https://www.youtube.com/watch?v=V75dMMIW2B4"
+                img: "https://i.ytimg.com/vi/OQgySPQ5M3Y/maxresdefault.jpg", progress: 0,
+                youtube: "https://www.youtube.com/watch?v=zckJCxYxn1g"
             },
             {
                 title: "Coração Valente",
                 releaseDate: "24/05/1995",
                 communityRating: "8.3/10",
                 summary: "William Wallace lidera a resistência escocesa contra a opressão inglesa, tornando-se símbolo de coragem e liberdade.",
-                img: "https://upload.wikimedia.org/wikipedia/en/5/55/Braveheart_imp.jpg", progress: 0,
-                youtube: "https://www.youtube.com/watch?v=1NJO0jxBtMo"
+                img: "https://ingresso-a.akamaihd.net/img/cinema/cartaz/14413-destaque.jpg", progress: 0,
+                youtube: "https://www.youtube.com/watch?v=a06zxOyQrAs"
             },
         ]
     },
