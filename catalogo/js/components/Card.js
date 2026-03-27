@@ -1,7 +1,12 @@
 import { getYouTubeId, getRandomMatchScore, getRandomDuration, getRandomAgeBadge } from '../utils.js';
 
+/* ===========================
+    HELPERS DE DADOS E MARKUP
+    =========================== */
+
 let cardSequence = 0;
 
+/* Garante campos minimos para o bloco de resumo */
 function getMovieInfo(item) {
     return {
         title: item.title || 'Título indisponível',
@@ -11,6 +16,7 @@ function getMovieInfo(item) {
     };
 }
 
+/* Cria imagem e iframe de video do card */
 function createMediaElements(item, videoId) {
     const img = document.createElement('img');
     img.src = item.img;
@@ -24,6 +30,7 @@ function createMediaElements(item, videoId) {
     return { img, iframe };
 }
 
+/* Monta o conteudo textual e botoes do painel expandido */
 function createDetailsElement(item, metadata, movieInfo, cardId) {
     const summaryId = `${cardId}-summary`;
 
@@ -66,6 +73,7 @@ function createDetailsElement(item, metadata, movieInfo, cardId) {
     return details;
 }
 
+/* Vincula o botao da seta ao abre/fecha do resumo */
 function bindSummaryToggle(detailsElement) {
     const toggleButton = detailsElement.querySelector('.btn-expand-summary');
     const summaryPanel = detailsElement.querySelector('.movie-summary');
@@ -85,6 +93,7 @@ function bindSummaryToggle(detailsElement) {
     });
 }
 
+/* Fecha o resumo quando o card perde foco visual */
 function closeSummaryIfOpen(cardElement) {
     const toggleButton = cardElement.querySelector('.btn-expand-summary');
     const summaryPanel = cardElement.querySelector('.movie-summary');
@@ -98,6 +107,7 @@ function closeSummaryIfOpen(cardElement) {
     summaryPanel.hidden = true;
 }
 
+/* Cria barra de progresso para itens em continuidade */
 function createProgressBar(progressValue) {
     const progressContainer = document.createElement('div');
     progressContainer.className = 'progress-bar-container';
@@ -110,6 +120,11 @@ function createProgressBar(progressValue) {
     return progressContainer;
 }
 
+/* ===========================
+    CONTROLE DE HOVER E VIDEO
+    =========================== */
+
+/* Controla animacao de hover, origem de escala e autoplay do trailer */
 class CardHoverVideoController {
     constructor(card, iframe, img, videoId) {
         this.card = card;
@@ -155,6 +170,7 @@ class CardHoverVideoController {
     }
 }
 
+/* Gera metadados aleatorios exibidos na linha de informacoes */
 function createMetadata(item, randomSource = Math.random) {
     return {
         matchScore: getRandomMatchScore(randomSource),
@@ -163,6 +179,7 @@ function createMetadata(item, randomSource = Math.random) {
     };
 }
 
+/* Factory principal de card */
 export function createCard(item, randomSource = Math.random) {
     const card = document.createElement('div');
     card.className = 'movie-card';

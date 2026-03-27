@@ -1,9 +1,15 @@
+/* ===========================
+   HELPERS E CONSTANTES
+   =========================== */
+
 const DEFAULT_YOUTUBE_ID = '7RUA0IOfar8';
 
+/* Gera inteiro aleatorio inclusivo entre min e max */
 function randomInt(min, max, rng = Math.random) {
     return Math.floor(rng() * (max - min + 1)) + min;
 }
 
+/* Extrai o ID do YouTube em links watch, youtu.be, shorts, embed e live */
 export function getYouTubeId(url, defaultId = DEFAULT_YOUTUBE_ID) {
     if (!url) {
         return defaultId;
@@ -46,14 +52,17 @@ export function getYouTubeId(url, defaultId = DEFAULT_YOUTUBE_ID) {
     return fallbackMatch ? fallbackMatch[1] : defaultId;
 }
 
+/* Gera pontuacao de relevancia exibida no card */
 export function getRandomMatchScore(rng = Math.random) {
     return randomInt(80, 99, rng);
 }
 
+/* Gera duracao aleatoria para cards sem progresso */
 export function getRandomDuration(hasProgress, rng = Math.random) {
     return hasProgress ? '10 temporadas' : `2h ${randomInt(0, 59, rng)}m`;
 }
 
+/* Alterna classificacao etaria exibida no card */
 export function getRandomAgeBadge(rng = Math.random) {
     return rng() > 0.5 ? { text: 'A16', class: 'red-accent' } : { text: '16', class: '' };
 }

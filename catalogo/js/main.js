@@ -1,8 +1,13 @@
 import { categories } from './data.js';
 import { createCarousel } from './components/Carousel.js';
 
+/* ===========================
+    CONFIGURACAO E CONSTANTES
+    =========================== */
+
 const PROFILE_NAME_KEY = 'perfilAtivoNome';
 
+/* Recupera o perfil ativo salvo no localStorage */
 class ActiveProfileStorage {
     constructor(storage, nameKey = PROFILE_NAME_KEY) {
         this.storage = storage;
@@ -20,6 +25,7 @@ class ActiveProfileStorage {
     }
 }
 
+/* Atualiza informacoes de acessibilidade do menu de perfil */
 class ProfileHeaderView {
     constructor(profileMenuElement) {
         this.profileMenuElement = profileMenuElement;
@@ -36,6 +42,7 @@ class ProfileHeaderView {
     }
 }
 
+/* Renderiza as secoes do catalogo no container principal */
 class CatalogRenderer {
     constructor(container, carouselFactory) {
         this.container = container;
@@ -53,6 +60,7 @@ class CatalogRenderer {
     }
 }
 
+/* Controlador principal da pagina de catalogo */
 class CatalogApp {
     constructor(profileStorage, headerView, catalogRenderer) {
         this.profileStorage = profileStorage;
@@ -67,6 +75,7 @@ class CatalogApp {
     }
 }
 
+/* Bootstrap da aplicacao */
 document.addEventListener('DOMContentLoaded', () => {
     const profileStorage = new ActiveProfileStorage(localStorage);
     const headerView = new ProfileHeaderView(document.querySelector('.profile-menu'));

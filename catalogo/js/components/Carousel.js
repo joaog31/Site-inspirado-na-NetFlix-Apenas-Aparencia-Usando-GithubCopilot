@@ -1,5 +1,10 @@
 import { createCard } from './Card.js';
 
+/* ===========================
+    HELPERS DE ESTRUTURA
+    =========================== */
+
+/* Cria cabecalho com titulo da categoria */
 function createHeader(titleText) {
     const header = document.createElement('div');
     header.className = 'slider-header';
@@ -17,6 +22,7 @@ function createHeader(titleText) {
     return header;
 }
 
+/* Cria linha horizontal de cards da categoria */
 function createRow(items, cardFactory) {
     const row = document.createElement('div');
     row.className = 'movie-row';
@@ -28,6 +34,7 @@ function createRow(items, cardFactory) {
     return row;
 }
 
+/* Factory principal de carrossel */
 export function createCarousel(category, cardFactory = createCard) {
     const section = document.createElement('div');
     section.className = 'slider-section';

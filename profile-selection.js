@@ -1,7 +1,12 @@
+/* ===========================
+    CONFIGURACAO E CONSTANTES
+    =========================== */
+
 const PROFILE_NAME_KEY = 'perfilAtivoNome';
 const PROFILE_IMAGE_KEY = 'perfilAtivoImagem';
 const CATALOG_PATH = 'catalogo/catalogo.html';
 
+/* Responsavel por persistir o perfil selecionado no navegador */
 class ActiveProfileStorage {
     constructor(storage, nameKey = PROFILE_NAME_KEY, imageKey = PROFILE_IMAGE_KEY) {
         this.storage = storage;
@@ -19,6 +24,7 @@ class ActiveProfileStorage {
     }
 }
 
+/* Extrai nome e imagem diretamente do card de perfil clicado */
 class ProfileExtractor {
     extract(profileElement) {
         const imageElement = profileElement.querySelector('img');
@@ -35,6 +41,7 @@ class ProfileExtractor {
     }
 }
 
+/* Camada simples de navegacao para desacoplar redirecionamento */
 class Navigator {
     constructor(locationObject) {
         this.locationObject = locationObject;
@@ -45,6 +52,7 @@ class Navigator {
     }
 }
 
+/* Orquestra extracao, persistencia e redirecionamento */
 class ProfileSelectionController {
     constructor(storage, extractor, navigator) {
         this.storage = storage;
@@ -63,6 +71,7 @@ class ProfileSelectionController {
     }
 }
 
+/* Conecta os cards de perfil ao fluxo de selecao */
 function bindProfileSelection(profileElements, controller) {
     profileElements.forEach((profileElement) => {
         profileElement.addEventListener('click', () => {
@@ -71,6 +80,7 @@ function bindProfileSelection(profileElements, controller) {
     });
 }
 
+/* Bootstrap da pagina inicial */
 document.addEventListener('DOMContentLoaded', () => {
     const controller = new ProfileSelectionController(
         new ActiveProfileStorage(localStorage),

@@ -1,4 +1,9 @@
+/* ===========================
+   BASE DE DADOS DO CATALOGO
+   =========================== */
+
 export const categories = [
+    /* Categoria principal com destaque de animes/obras epicas */
     {
         title: "Épicos",
         items: [
@@ -36,6 +41,7 @@ export const categories = [
             },
         ]
     },
+    /* Categoria de series populares */
     {
         title: "Séries",
         items: [
@@ -81,6 +87,7 @@ export const categories = [
             },
         ]
     },
+    /* Categoria de filmes para maratona */
     {
         title: "Para maratonar",
         items: [
