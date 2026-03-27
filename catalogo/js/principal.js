@@ -76,7 +76,7 @@ class CatalogApp {
 
 /* Inicializa a interface de busca com tolerancia a erros */
 function setupSearch(catalogApp) {
-    inicializarBusca({
+    return inicializarBusca({
         triggerButton: document.getElementById('search-trigger'),
         panel: document.getElementById('search-panel'),
         closeButton: document.getElementById('search-close'),
@@ -102,5 +102,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = new CatalogApp(profileStorage, headerView, catalogRenderer);
     app.init(categorias);
 
-    setupSearch(app);
+    const searchControls = setupSearch(app);
+
+    // Adiciona funcionalidade ao link "Início" para voltar ao catálogo completo
+    const homeLink = document.getElementById('nav-home');
+    if (homeLink) {
+        homeLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            searchControls.closePanel();
+            app.init(categorias);
+        });
+    }
 });

@@ -119,7 +119,7 @@ class MyListPageController {
 
 /* Inicializa a interface de busca com base na lista exibida */
 function setupSearch(getSourceItems, onSelectItem) {
-    inicializarBusca({
+    return inicializarBusca({
         triggerButton: document.getElementById('search-trigger'),
         panel: document.getElementById('search-panel'),
         closeButton: document.getElementById('search-close'),
@@ -147,8 +147,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const controller = new MyListPageController(profileStorage, myListStorage, headerView, listView);
     controller.init(categorias, clearButton);
 
-    setupSearch(
+    const searchControls = setupSearch(
         () => controller.getCurrentItems(),
         (item) => controller.renderOnlyItem(item)
     );
+
+    // Adiciona funcionalidade ao link "Início" para voltar ao catálogo completo
+    const homeLink = document.getElementById('nav-home');
+    if (homeLink) {
+        homeLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            searchControls.closePanel();
+            controller.init(categorias, clearButton);
+        });
+    }
 });

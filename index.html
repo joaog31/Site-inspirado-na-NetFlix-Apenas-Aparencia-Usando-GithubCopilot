@@ -56,7 +56,45 @@
             </ul>
         </section>
 
+        <div class="manage-section">
+            <button id="manage-profiles-btn" class="manage-btn" type="button" aria-label="Gerenciar perfis">
+                <i class="icon">⚙️</i> Gerenciar perfis
+            </button>
+        </div>
     </main>
+
+    <!-- Modal de Gerenciamento de Perfis -->
+    <div id="manage-modal" class="modal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Gerenciar Perfis</h2>
+                <button id="modal-close" class="modal-close" type="button" aria-label="Fechar">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="profiles-list" id="profiles-list"></div>
+
+                <div class="modal-section" id="new-profile-section">
+                    <h3>Criar novo perfil</h3>
+                    <div class="form-group">
+                        <label for="profile-name">Nome do perfil:</label>
+                        <input type="text" id="profile-name" placeholder="Digite o nome do novo perfil" maxlength="20">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-avatar">Escolha um avatar:</label>
+                        <div class="avatar-options" id="avatar-options"></div>
+                    </div>
+
+                    <button id="create-profile-btn" class="btn-primary" type="button">Criar perfil</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p id="profile-count" class="profile-count"></p>
+            </div>
+        </div>
+    </div>
     <script src="js/compartilhado/tema.js" defer></script>
     <script type="module" src="js/compartilhado/selecao-perfil.js"></script>
 </body>

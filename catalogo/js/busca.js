@@ -101,6 +101,8 @@ function renderResults(resultsContainer, results, onSelectResult) {
         button.addEventListener('click', () => onSelectResult(result.item));
         resultsContainer.appendChild(button);
     });
+
+    return resultsContainer.querySelectorAll('.search-result-item');
 }
 
 /* ===========================
@@ -124,10 +126,37 @@ export function inicializarBusca({
     panel.hidden = true;
     triggerButton.setAttribute('aria-expanded', 'false');
 
+    let selectedResultIndex = -1;
+    let currentResults = [];
+
+    const clearHighlight = () => {
+        currentResults.forEach((button) => button.classList.remove('focused'));
+    };
+
+    const highlightResult = (index) => {
+        if (index < 0 || index >= currentResults.length) return;
+        clearHighlight();
+        selectedResultIndex = index;
+        const button = currentResults[index];
+        button.classList.add('focused');
+        button.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    const selectCurrentResult = () => {
+        if (selectedResultIndex >= 0 && selectedResultIndex < currentResults.length) {
+            const selectedButton = currentResults[selectedResultIndex];
+            selectedButton.click();
+        } else if (currentResults.length > 0) {
+            currentResults[0].click();
+        }
+    };
+
     const closePanel = () => {
         panel.hidden = true;
         triggerButton.setAttribute('aria-expanded', 'false');
         input.value = '';
+        selectedResultIndex = -1;
+        currentResults = [];
         renderPrompt(resultsContainer);
     };
 
@@ -143,6 +172,8 @@ export function inicializarBusca({
 
         if (!query) {
             renderPrompt(resultsContainer);
+            selectedResultIndex = -1;
+            currentResults = [];
             return;
         }
 
@@ -155,15 +186,20 @@ export function inicializarBusca({
 
         if (scoredResults.length === 0) {
             renderNoResults(resultsContainer, query);
+            selectedResultIndex = -1;
+            currentResults = [];
             return;
         }
 
-        renderResults(resultsContainer, scoredResults, (item) => {
+        const resultButtons = renderResults(resultsContainer, scoredResults, (item) => {
             closePanel();
             if (onSelectResult) {
                 onSelectResult(item, criarIdObra(item));
             }
         });
+
+        currentResults = Array.from(resultButtons);
+        selectedResultIndex = -1;
     };
 
     triggerButton.addEventListener('click', () => {
@@ -177,6 +213,31 @@ export function inicializarBusca({
     closeButton.addEventListener('click', closePanel);
     input.addEventListener('input', runSearch);
 
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            selectCurrentResult();
+            return;
+        }
+
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            const nextIndex = selectedResultIndex + 1;
+            if (nextIndex < currentResults.length) {
+                highlightResult(nextIndex);
+            }
+            return;
+        }
+
+        if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            const prevIndex = selectedResultIndex - 1;
+            if (prevIndex >= 0) {
+                highlightResult(prevIndex);
+            }
+        }
+    });
+
     panel.addEventListener('click', (event) => {
         if (event.target === panel) {
             closePanel();
@@ -188,4 +249,6 @@ export function inicializarBusca({
             closePanel();
         }
     });
+
+    return { closePanel };
 }
