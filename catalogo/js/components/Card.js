@@ -1,27 +1,19 @@
 import { getYouTubeId, getRandomMatchScore, getRandomDuration, getRandomAgeBadge } from '../utils.js';
 
-export function createCard(item) {
-    const card = document.createElement('div');
-    card.className = 'movie-card';
-    if (item.progress) {
-        card.classList.add('has-progress');
-    }
-
+function createMediaElements(item, videoId) {
     const img = document.createElement('img');
     img.src = item.img;
-    img.alt = `Movie cover`;
+    img.alt = 'Movie cover';
 
     const iframe = document.createElement('iframe');
-    iframe.frameBorder = "0";
-    iframe.allow = "autoplay; encrypted-media";
+    iframe.setAttribute('frameborder', '0');
+    iframe.allow = 'autoplay; encrypted-media';
+    iframe.dataset.videoId = videoId;
 
-    const videoId = getYouTubeId(item.youtube);
+    return { img, iframe };
+}
 
-    card.appendChild(iframe);
-    card.appendChild(img);
-
-    const ageBadge = getRandomAgeBadge();
-
+function createDetailsElement(item, metadata) {
     const details = document.createElement('div');
     details.className = 'card-details';
     details.innerHTML = `
@@ -36,9 +28,9 @@ export function createCard(item) {
             </div>
         </div>
         <div class="details-info">
-            <span class="match-score">${getRandomMatchScore()}% relevante</span>
-            <span class="age-badge ${ageBadge.class}">${ageBadge.text}</span>
-            <span class="duration">${getRandomDuration(item.progress)}</span>
+            <span class="match-score">${metadata.matchScore}% relevante</span>
+            <span class="age-badge ${metadata.ageBadge.class}">${metadata.ageBadge.text}</span>
+            <span class="duration">${metadata.duration}</span>
             <span class="resolution">HD</span>
         </div>
         <div class="details-tags">
@@ -47,45 +39,97 @@ export function createCard(item) {
             <span>Ficção</span>
         </div>
     `;
-    card.appendChild(details);
 
+    return details;
+}
 
-    if (item.progress) {
-        const pbContainer = document.createElement('div');
-        pbContainer.className = 'progress-bar-container';
-        const pbValue = document.createElement('div');
-        pbValue.className = 'progress-value';
-        pbValue.style.width = `${item.progress}%`;
-        pbContainer.appendChild(pbValue);
-        card.appendChild(pbContainer);
+function createProgressBar(progressValue) {
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'progress-bar-container';
+
+    const progress = document.createElement('div');
+    progress.className = 'progress-value';
+    progress.style.width = `${progressValue}%`;
+
+    progressContainer.appendChild(progress);
+    return progressContainer;
+}
+
+class CardHoverVideoController {
+    constructor(card, iframe, img, videoId) {
+        this.card = card;
+        this.iframe = iframe;
+        this.img = img;
+        this.videoId = videoId;
+        this.playTimeout = null;
     }
 
-    let playTimeout;
-    card.addEventListener('mouseenter', () => {
-        const rect = card.getBoundingClientRect();
-        const windowWidth = window.innerWidth;
-        
+    bind() {
+        this.card.addEventListener('mouseenter', () => this.onMouseEnter());
+        this.card.addEventListener('mouseleave', () => this.onMouseLeave());
+    }
+
+    onMouseEnter() {
+        const rect = this.card.getBoundingClientRect();
+        const viewportWidth = globalThis.innerWidth;
+
         if (rect.left < 100) {
-            card.classList.add('origin-left');
-        } else if (rect.right > windowWidth - 100) {
-            card.classList.add('origin-right');
+            this.card.classList.add('origin-left');
+        } else if (rect.right > viewportWidth - 100) {
+            this.card.classList.add('origin-right');
         }
 
-        playTimeout = setTimeout(() => {
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&playlist=${videoId}`;
-            iframe.classList.add('playing');
-            img.classList.add('playing-video');
+        this.playTimeout = setTimeout(() => {
+            this.iframe.src = this.createEmbedUrl();
+            this.iframe.classList.add('playing');
+            this.img.classList.add('playing-video');
         }, 600);
-    });
+    }
 
-    card.addEventListener('mouseleave', () => {
-        clearTimeout(playTimeout);
-        iframe.classList.remove('playing');
-        img.classList.remove('playing-video');
-        iframe.src = "";
-        card.classList.remove('origin-left');
-        card.classList.remove('origin-right');
-    });
+    onMouseLeave() {
+        clearTimeout(this.playTimeout);
+        this.iframe.classList.remove('playing');
+        this.img.classList.remove('playing-video');
+        this.iframe.src = '';
+        this.card.classList.remove('origin-left', 'origin-right');
+    }
+
+    createEmbedUrl() {
+        return `https://www.youtube.com/embed/${this.videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&playlist=${this.videoId}`;
+    }
+}
+
+function createMetadata(item, randomSource = Math.random) {
+    return {
+        matchScore: getRandomMatchScore(randomSource),
+        duration: getRandomDuration(item.progress, randomSource),
+        ageBadge: getRandomAgeBadge(randomSource)
+    };
+}
+
+export function createCard(item, randomSource = Math.random) {
+    const card = document.createElement('div');
+    card.className = 'movie-card';
+
+    if (item.progress) {
+        card.classList.add('has-progress');
+    }
+
+    const videoId = getYouTubeId(item.youtube);
+    const { img, iframe } = createMediaElements(item, videoId);
+    const metadata = createMetadata(item, randomSource);
+    const details = createDetailsElement(item, metadata);
+
+    card.appendChild(iframe);
+    card.appendChild(img);
+    card.appendChild(details);
+
+    if (item.progress) {
+        card.appendChild(createProgressBar(item.progress));
+    }
+
+    const hoverController = new CardHoverVideoController(card, iframe, img, videoId);
+    hoverController.bind();
 
     return card;
 }

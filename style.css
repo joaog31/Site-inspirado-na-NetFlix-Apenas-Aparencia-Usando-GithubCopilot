@@ -177,12 +177,27 @@ section { width: 100%; display: flex; justify-content: center; }
    PERFIL (CARD INDIVIDUAL)
    =========================== */
 
-/* Estiliza cada card de perfil */
-.profile {
+/* Estiliza cada item de perfil */
+.profile-item {
     flex: 0 1 180px;                        /* Largura fixa de 180px */
+    list-style: none;
+}
+
+/* Botão visual do card de perfil */
+.profile {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 0;
     cursor: pointer;                        /* Cursor indica clicável */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave */
     animation: slideUp 0.6s ease-out;       /* Animação de entrada */
+}
+
+.profile:focus-visible {
+    outline: 2px solid #e50914;
+    outline-offset: 4px;
+    border-radius: 8px;
 }
 
 /* Efeito ao passar o mouse sobre o perfil */

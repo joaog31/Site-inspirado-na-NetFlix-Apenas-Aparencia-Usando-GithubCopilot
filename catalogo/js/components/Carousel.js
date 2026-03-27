@@ -1,32 +1,39 @@
 import { createCard } from './Card.js';
 
-export function createCarousel(category) {
-    const section = document.createElement('div');
-    section.className = 'slider-section';
-
-    // Header for Title and Indicators
+function createHeader(titleText) {
     const header = document.createElement('div');
     header.className = 'slider-header';
 
     const title = document.createElement('h2');
     title.className = 'slider-title';
-    title.innerText = category.title;
+    title.innerText = titleText;
 
     const indicators = document.createElement('div');
     indicators.className = 'slider-indicators';
 
     header.appendChild(title);
     header.appendChild(indicators);
-    section.appendChild(header);
 
+    return header;
+}
+
+function createRow(items, cardFactory) {
     const row = document.createElement('div');
     row.className = 'movie-row';
 
-    category.items.forEach(item => {
-        const card = createCard(item);
-        row.appendChild(card);
+    items.forEach((item) => {
+        row.appendChild(cardFactory(item));
     });
 
-    section.appendChild(row);
+    return row;
+}
+
+export function createCarousel(category, cardFactory = createCard) {
+    const section = document.createElement('div');
+    section.className = 'slider-section';
+
+    section.appendChild(createHeader(category.title));
+    section.appendChild(createRow(category.items, cardFactory));
+
     return section;
 }
