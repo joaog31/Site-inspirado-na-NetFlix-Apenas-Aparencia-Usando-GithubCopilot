@@ -188,11 +188,11 @@ class CardHoverVideoController {
     }
 
     detectTouchMode() {
-        const hasTouchPoints = (globalThis.navigator?.maxTouchPoints ?? 0) > 0;
-        const hasTouchEvent = 'ontouchstart' in globalThis;
+        const isMobileViewport = globalThis.matchMedia?.('(max-width: 768px)').matches ?? false;
         const coarsePointer = globalThis.matchMedia?.('(hover: none), (pointer: coarse)').matches ?? false;
+        const hasTouchPoints = (globalThis.navigator?.maxTouchPoints ?? 0) > 0;
 
-        return hasTouchPoints || hasTouchEvent || coarsePointer;
+        return isMobileViewport && (coarsePointer || hasTouchPoints);
     }
 
     onMouseEnter() {
@@ -239,6 +239,10 @@ class CardHoverVideoController {
 
     openMobileCard() {
         this.applyScaleOrigin();
+        const rowElement = this.card.closest('.movie-row');
+        if (rowElement) {
+            rowElement.classList.add('has-open-card');
+        }
         this.card.classList.add('mobile-open');
         this.startPlayback(250);
         CardHoverVideoController.activeMobileCard = this;
@@ -277,6 +281,10 @@ class CardHoverVideoController {
         this.iframe.classList.remove('playing');
         this.img.classList.remove('playing-video');
         this.iframe.src = '';
+        const rowElement = this.card.closest('.movie-row');
+        if (rowElement) {
+            rowElement.classList.remove('has-open-card');
+        }
         this.card.classList.remove('mobile-open', 'origin-left', 'origin-right');
         closeSummaryIfOpen(this.card);
     }

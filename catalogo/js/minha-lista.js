@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         homeLink.addEventListener('click', (event) => {
             event.preventDefault();
             searchControls.closePanel();
-            controller.init(categorias, clearButton);
+            globalThis.location.href = 'catalogo.html';
         });
     }
 });
