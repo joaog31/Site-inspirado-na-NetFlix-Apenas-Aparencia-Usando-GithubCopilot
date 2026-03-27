@@ -170,42 +170,54 @@ class CardHoverVideoController {
         this.img = img;
         this.videoId = videoId;
         this.playTimeout = null;
-        this.isTouchMode = this.detectTouchMode();
+        this.lastOpenedAt = 0;
 
         this.handleCardTap = (event) => this.onCardTap(event);
         this.handleDocumentTap = (event) => this.onDocumentTap(event);
+        this.handleViewportChange = () => this.onViewportChange();
     }
 
     bind() {
-        if (this.isTouchMode) {
-            this.card.addEventListener('click', this.handleCardTap);
-            document.addEventListener('click', this.handleDocumentTap);
-            return;
-        }
-
+        this.card.addEventListener('click', this.handleCardTap);
+        document.addEventListener('click', this.handleDocumentTap);
         this.card.addEventListener('mouseenter', () => this.onMouseEnter());
         this.card.addEventListener('mouseleave', () => this.onMouseLeave());
+        globalThis.addEventListener('resize', this.handleViewportChange);
     }
 
-    detectTouchMode() {
-        const isMobileViewport = globalThis.matchMedia?.('(max-width: 768px)').matches ?? false;
-        const coarsePointer = globalThis.matchMedia?.('(hover: none), (pointer: coarse)').matches ?? false;
-        const hasTouchPoints = (globalThis.navigator?.maxTouchPoints ?? 0) > 0;
-
-        return isMobileViewport && (coarsePointer || hasTouchPoints);
+    isMobileMode() {
+        return globalThis.matchMedia?.('(max-width: 768px)').matches ?? false;
     }
 
     onMouseEnter() {
+        if (this.isMobileMode()) {
+            return;
+        }
+
         this.applyScaleOrigin();
         this.startPlayback(600);
     }
 
     onMouseLeave() {
+        if (this.isMobileMode()) {
+            return;
+        }
+
         this.closeCardVisualState();
     }
 
     onCardTap(event) {
+        if (!this.isMobileMode()) {
+            return;
+        }
+
         const interactiveTarget = event.target.closest('.btn-icon, .movie-summary, .card-details p, .card-details span, .card-details strong');
+
+        if (this.card.classList.contains('mobile-open')) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
 
         if (interactiveTarget) {
             return;
@@ -213,12 +225,6 @@ class CardHoverVideoController {
 
         event.preventDefault();
         event.stopPropagation();
-
-        const isOpen = this.card.classList.contains('mobile-open');
-        if (isOpen) {
-            this.closeMobileCard();
-            return;
-        }
 
         if (CardHoverVideoController.activeMobileCard && CardHoverVideoController.activeMobileCard !== this) {
             CardHoverVideoController.activeMobileCard.closeMobileCard();
@@ -228,7 +234,15 @@ class CardHoverVideoController {
     }
 
     onDocumentTap(event) {
+        if (!this.isMobileMode()) {
+            return;
+        }
+
         if (!this.card.classList.contains('mobile-open')) {
+            return;
+        }
+
+        if (Date.now() - this.lastOpenedAt < 220) {
             return;
         }
 
@@ -242,7 +256,10 @@ class CardHoverVideoController {
         document.body.classList.add('has-open-mobile-card');
         this.card.classList.add('mobile-open');
         this.startPlayback(250);
+        this.lastOpenedAt = Date.now();
         CardHoverVideoController.activeMobileCard = this;
+
+        globalThis.requestAnimationFrame(() => this.positionMobileCardInViewport());
     }
 
     closeMobileCard() {
@@ -280,7 +297,43 @@ class CardHoverVideoController {
         this.iframe.src = '';
         document.body.classList.remove('has-open-mobile-card');
         this.card.classList.remove('mobile-open', 'origin-left', 'origin-right');
+        this.card.style.top = '';
+        this.card.style.transform = '';
         closeSummaryIfOpen(this.card);
+    }
+
+    positionMobileCardInViewport() {
+        if (!this.card.classList.contains('mobile-open')) {
+            return;
+        }
+
+        const cardRect = this.card.getBoundingClientRect();
+        const viewportHeight = globalThis.innerHeight;
+        const safeTop = 84;
+        const safeBottom = 16;
+        const availableHeight = viewportHeight - safeTop - safeBottom;
+
+        if (cardRect.height <= availableHeight) {
+            this.card.style.top = '50%';
+            this.card.style.transform = 'translate(-50%, -50%)';
+            return;
+        }
+
+        this.card.style.top = `${safeTop}px`;
+        this.card.style.transform = 'translateX(-50%)';
+    }
+
+    onViewportChange() {
+        if (!this.card.classList.contains('mobile-open')) {
+            return;
+        }
+
+        if (!this.isMobileMode()) {
+            this.closeMobileCard();
+            return;
+        }
+
+        this.positionMobileCardInViewport();
     }
 
     createEmbedUrl() {
