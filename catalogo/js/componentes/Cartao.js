@@ -1,3 +1,7 @@
+/* ===========================
+    MODULO: COMPONENTE CARTAO
+    =========================== */
+
 import { obterIdYouTube, obterPontuacaoRelevanciaAleatoria, obterDuracaoAleatoria, obterClassificacaoEtariaAleatoria } from '../utilitarios.js';
 import { criarIdObra, obterChaveMinhaLista, ArmazenamentoMinhaLista } from '../dominio/minha-lista.js';
 import { obterIdPerfilAtivo } from '../dominio/perfil.js';
@@ -170,16 +174,13 @@ class CardHoverVideoController {
         this.img = img;
         this.videoId = videoId;
         this.playTimeout = null;
-        this.lastOpenedAt = 0;
 
         this.handleCardTap = (event) => this.onCardTap(event);
-        this.handleDocumentTap = (event) => this.onDocumentTap(event);
         this.handleViewportChange = () => this.onViewportChange();
     }
 
     bind() {
         this.card.addEventListener('click', this.handleCardTap);
-        document.addEventListener('click', this.handleDocumentTap);
         this.card.addEventListener('mouseenter', () => this.onMouseEnter());
         this.card.addEventListener('mouseleave', () => this.onMouseLeave());
         globalThis.addEventListener('resize', this.handleViewportChange);
@@ -233,30 +234,13 @@ class CardHoverVideoController {
         this.openMobileCard();
     }
 
-    onDocumentTap(event) {
-        if (!this.isMobileMode()) {
-            return;
-        }
-
-        if (!this.card.classList.contains('mobile-open')) {
-            return;
-        }
-
-        if (Date.now() - this.lastOpenedAt < 220) {
-            return;
-        }
-
-        if (!this.card.contains(event.target)) {
-            this.closeMobileCard();
-        }
-    }
-
     openMobileCard() {
         this.applyScaleOrigin();
+        CardHoverVideoController.ensureMobileBackdrop();
+        CardHoverVideoController.mobileBackdrop.classList.add('is-active');
         document.body.classList.add('has-open-mobile-card');
         this.card.classList.add('mobile-open');
         this.startPlayback(250);
-        this.lastOpenedAt = Date.now();
         CardHoverVideoController.activeMobileCard = this;
 
         globalThis.requestAnimationFrame(() => this.positionMobileCardInViewport());
@@ -296,10 +280,34 @@ class CardHoverVideoController {
         this.img.classList.remove('playing-video');
         this.iframe.src = '';
         document.body.classList.remove('has-open-mobile-card');
+        if (CardHoverVideoController.mobileBackdrop) {
+            CardHoverVideoController.mobileBackdrop.classList.remove('is-active');
+        }
         this.card.classList.remove('mobile-open', 'origin-left', 'origin-right');
         this.card.style.top = '';
         this.card.style.transform = '';
         closeSummaryIfOpen(this.card);
+    }
+
+    static ensureMobileBackdrop() {
+        if (CardHoverVideoController.mobileBackdrop) {
+            return;
+        }
+
+        const backdrop = document.createElement('button');
+        backdrop.className = 'mobile-card-backdrop';
+        backdrop.type = 'button';
+        backdrop.setAttribute('aria-label', 'Fechar detalhes da obra');
+
+        backdrop.addEventListener('click', () => {
+            if (CardHoverVideoController.activeMobileCard) {
+                CardHoverVideoController.activeMobileCard.closeMobileCard();
+                CardHoverVideoController.activeMobileCard = null;
+            }
+        });
+
+        document.body.appendChild(backdrop);
+        CardHoverVideoController.mobileBackdrop = backdrop;
     }
 
     positionMobileCardInViewport() {

@@ -986,6 +986,7 @@ footer {
     }
 
     .movie-card.mobile-open {
+        --mobile-media-height: min(34vh, 220px);
         position: fixed;
         top: 50%;
         left: 50%;
@@ -995,26 +996,59 @@ footer {
         z-index: 1400;
         border-radius: 10px;
         box-shadow: 0 20px 64px rgba(0, 0, 0, 0.76);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    body.has-open-mobile-card {
+        overflow: hidden;
+    }
+
+    .mobile-card-backdrop {
+        position: fixed;
+        inset: 0;
+        border: 0;
+        background: rgba(0, 0, 0, 0.26);
+        z-index: 1300;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .mobile-card-backdrop.is-active {
+        opacity: 1;
+        pointer-events: auto;
     }
 
     .movie-card.mobile-open .card-details {
-        position: static;
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
         max-height: none;
         overflow: visible;
         overscroll-behavior: auto;
         padding: clamp(14px, 3.8vw, 22px);
         gap: clamp(10px, 2.6vw, 16px);
+        justify-content: flex-start;
     }
 
-    .movie-card.mobile-open img,
-    .movie-card.mobile-open iframe {
+    .movie-card.mobile-open img {
         position: relative;
-        inset: auto;
+        inset: 0;
         display: block;
         width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
-        max-height: 34vh;
+        height: var(--mobile-media-height);
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .movie-card.mobile-open iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--mobile-media-height);
         border-radius: 10px 10px 0 0;
     }
 
@@ -1055,16 +1089,6 @@ footer {
     .movie-card.mobile-open .age-badge,
     .movie-card.mobile-open .resolution {
         padding: 2px 6px;
-    }
-
-    body.has-open-mobile-card::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.58);
-        backdrop-filter: blur(6px);
-        z-index: 1300;
-        pointer-events: none;
     }
 
     .slider-title {

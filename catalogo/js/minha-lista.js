@@ -1,3 +1,7 @@
+/* ===========================
+    MODULO: PAGINA MINHA LISTA
+    =========================== */
+
 import { categorias } from './dados.js';
 import { criarCarrossel } from './componentes/Carrossel.js';
 import { inicializarBusca } from './busca.js';

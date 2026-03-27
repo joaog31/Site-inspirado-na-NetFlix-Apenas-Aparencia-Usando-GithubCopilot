@@ -1,3 +1,7 @@
+/* ===========================
+    MODULO: REGRAS DA MINHA LISTA
+    =========================== */
+
 import { obterIdYouTube } from '../utilitarios.js';
 
 /* ===========================

@@ -1,3 +1,7 @@
+/* ===========================
+    MODULO: SELECAO DE PERFIS
+    =========================== */
+
 import { ArmazenamentoPerfilAtivo, criarIdPerfil } from '../../catalogo/js/dominio/perfil.js';
 import { ArmazenamentoPerfis, MAX_PERFIS } from '../../catalogo/js/dominio/perfis.js';
 

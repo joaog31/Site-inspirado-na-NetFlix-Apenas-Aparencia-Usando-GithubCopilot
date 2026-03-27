@@ -1,3 +1,7 @@
+/* ===========================
+    MODULO: COMPONENTE CARROSSEL
+    =========================== */
+
 import { criarCartao } from './Cartao.js';
 
 /* ===========================

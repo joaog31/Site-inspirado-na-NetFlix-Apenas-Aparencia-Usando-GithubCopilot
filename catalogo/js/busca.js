@@ -1,3 +1,7 @@
+/* ===========================
+    MODULO: BUSCA DE OBRAS
+    =========================== */
+
 import { criarIdObra } from './dominio/minha-lista.js';
 
 /* ===========================
