@@ -392,6 +392,16 @@ body.theme-light .btn-icon:hover {
     margin-left: 2px;
 }
 
+.btn-my-list-added {
+    background-color: rgba(52, 199, 89, 0.25);
+    border-color: rgba(52, 199, 89, 0.9);
+}
+
+body.theme-light .btn-my-list-added {
+    background-color: rgba(52, 199, 89, 0.16);
+    border-color: rgba(30, 120, 56, 0.7);
+}
+
 .btn-expand-summary i {
     transition: transform 0.2s ease;
 }

@@ -5,6 +5,67 @@ import { getYouTubeId, getRandomMatchScore, getRandomDuration, getRandomAgeBadge
     =========================== */
 
 let cardSequence = 0;
+const MY_LIST_STORAGE_KEY = 'catalogo-minha-lista';
+
+/* Persiste e consulta a lista pessoal do usuario */
+class MyListStorage {
+    constructor(storage, key = MY_LIST_STORAGE_KEY) {
+        this.storage = storage;
+        this.key = key;
+    }
+
+    getAll() {
+        const rawValue = this.storage.getItem(this.key);
+
+        if (!rawValue) {
+            return [];
+        }
+
+        try {
+            const parsedValue = JSON.parse(rawValue);
+            return Array.isArray(parsedValue) ? parsedValue : [];
+        } catch {
+            return [];
+        }
+    }
+
+    has(workId) {
+        return this.getAll().includes(workId);
+    }
+
+    toggle(workId) {
+        const entries = this.getAll();
+        const nextEntries = entries.includes(workId)
+            ? entries.filter((entry) => entry !== workId)
+            : [...entries, workId];
+
+        this.storage.setItem(this.key, JSON.stringify(nextEntries));
+        return nextEntries.includes(workId);
+    }
+}
+
+/* Gera identificador unico para cada obra no armazenamento */
+function createWorkId(item) {
+    const baseTitle = (item.title || '').trim().toLowerCase().replaceAll(' ', '-');
+    const videoId = getYouTubeId(item.youtube);
+    return `${baseTitle}-${videoId}`;
+}
+
+/* Atualiza aparencia e acessibilidade do botao de Minha lista */
+function renderMyListButton(buttonElement, isInMyList, movieTitle) {
+    if (!buttonElement) {
+        return;
+    }
+
+    buttonElement.classList.toggle('btn-my-list-added', isInMyList);
+    buttonElement.setAttribute(
+        'aria-label',
+        isInMyList ? `Remover ${movieTitle} da Minha lista` : `Adicionar ${movieTitle} a Minha lista`
+    );
+    buttonElement.innerHTML = isInMyList
+        ? '<i class="fas fa-check"></i>'
+        : '<i class="fas fa-plus"></i>';
+}
 
 /* Garante campos minimos para o bloco de resumo */
 function getMovieInfo(item) {
@@ -31,7 +92,7 @@ function createMediaElements(item, videoId) {
 }
 
 /* Monta o conteudo textual e botoes do painel expandido */
-function createDetailsElement(item, metadata, movieInfo, cardId) {
+function createDetailsElement(item, metadata, movieInfo, cardId, isInMyList) {
     const summaryId = `${cardId}-summary`;
 
     const details = document.createElement('div');
@@ -40,7 +101,7 @@ function createDetailsElement(item, metadata, movieInfo, cardId) {
         <div class="details-buttons">
             <div class="left-buttons">
                 <button class="btn-icon btn-play-icon"><i class="fas fa-play" style="margin-left:2px;"></i></button>
-                ${item.progress ? '<button class="btn-icon"><i class="fas fa-check"></i></button>' : '<button class="btn-icon"><i class="fas fa-plus"></i></button>'}
+                <button class="btn-icon btn-my-list" type="button"></button>
                 <button class="btn-icon"><i class="fas fa-thumbs-up"></i></button>
             </div>
             <div class="right-buttons">
@@ -70,7 +131,29 @@ function createDetailsElement(item, metadata, movieInfo, cardId) {
         </div>
     `;
 
+    const myListButton = details.querySelector('.btn-my-list');
+    renderMyListButton(myListButton, isInMyList, movieInfo.title);
+
     return details;
+}
+
+/* Conecta o clique do botao Minha lista com persistencia local */
+function bindMyListToggle(detailsElement, movieInfo, workId, myListStorage) {
+    const myListButton = detailsElement.querySelector('.btn-my-list');
+
+    if (!myListButton) {
+        return;
+    }
+
+    myListButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const isInMyList = myListStorage.toggle(workId);
+        renderMyListButton(myListButton, isInMyList, movieInfo.title);
+
+        document.dispatchEvent(new CustomEvent('my-list-updated'));
+    });
 }
 
 /* Vincula o botao da seta ao abre/fecha do resumo */
@@ -189,15 +272,19 @@ export function createCard(item, randomSource = Math.random) {
         card.classList.add('has-progress');
     }
 
+    const myListStorage = new MyListStorage(localStorage);
+    const workId = createWorkId(item);
+    const isInMyList = myListStorage.has(workId);
     const videoId = getYouTubeId(item.youtube);
     const { img, iframe } = createMediaElements(item, videoId);
     const metadata = createMetadata(item, randomSource);
     const movieInfo = getMovieInfo(item);
-    const details = createDetailsElement(item, metadata, movieInfo, `movie-card-${cardSequence}`);
+    const details = createDetailsElement(item, metadata, movieInfo, `movie-card-${cardSequence}`, isInMyList);
 
     card.appendChild(iframe);
     card.appendChild(img);
     card.appendChild(details);
+    bindMyListToggle(details, movieInfo, workId, myListStorage);
     bindSummaryToggle(details);
 
     if (item.progress) {

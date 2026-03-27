@@ -1,11 +1,13 @@
 import { categories } from './data.js';
 import { createCarousel } from './components/Carousel.js';
+import { getYouTubeId } from './utils.js';
 
 /* ===========================
     CONFIGURACAO E CONSTANTES
     =========================== */
 
 const PROFILE_NAME_KEY = 'perfilAtivoNome';
+const MY_LIST_STORAGE_KEY = 'catalogo-minha-lista';
 
 /* Recupera o perfil ativo salvo no localStorage */
 class ActiveProfileStorage {
@@ -23,6 +25,52 @@ class ActiveProfileStorage {
 
         return { name };
     }
+}
+
+/* Recupera os IDs da lista pessoal salvos no navegador */
+class MyListStorage {
+    constructor(storage, key = MY_LIST_STORAGE_KEY) {
+        this.storage = storage;
+        this.key = key;
+    }
+
+    getAll() {
+        const rawValue = this.storage.getItem(this.key);
+
+        if (!rawValue) {
+            return [];
+        }
+
+        try {
+            const parsedValue = JSON.parse(rawValue);
+            return Array.isArray(parsedValue) ? parsedValue : [];
+        } catch {
+            return [];
+        }
+    }
+}
+
+/* Gera o mesmo identificador usado pelos cards para salvar na lista */
+function createWorkId(item) {
+    const baseTitle = (item.title || '').trim().toLowerCase().replaceAll(' ', '-');
+    const videoId = getYouTubeId(item.youtube);
+    return `${baseTitle}-${videoId}`;
+}
+
+/* Monta a categoria Minha lista a partir das obras marcadas */
+function buildMyListCategory(categoriesData, myListIds) {
+    const selectedItems = categoriesData
+        .flatMap((category) => category.items)
+        .filter((item) => myListIds.includes(createWorkId(item)));
+
+    if (selectedItems.length === 0) {
+        return null;
+    }
+
+    return {
+        title: 'Minha lista',
+        items: selectedItems
+    };
 }
 
 /* Atualiza informacoes de acessibilidade do menu de perfil */
@@ -54,16 +102,25 @@ class CatalogRenderer {
             return;
         }
 
+        this.container.innerHTML = '';
+
         categoriesData.forEach((category) => {
-            this.container.appendChild(this.carouselFactory(category));
+            const section = this.carouselFactory(category);
+
+            if (category.title === 'Minha lista') {
+                section.id = 'minha-lista-section';
+            }
+
+            this.container.appendChild(section);
         });
     }
 }
 
 /* Controlador principal da pagina de catalogo */
 class CatalogApp {
-    constructor(profileStorage, headerView, catalogRenderer) {
+    constructor(profileStorage, myListStorage, headerView, catalogRenderer) {
         this.profileStorage = profileStorage;
+        this.myListStorage = myListStorage;
         this.headerView = headerView;
         this.catalogRenderer = catalogRenderer;
     }
@@ -71,19 +128,38 @@ class CatalogApp {
     init(categoriesData) {
         const activeProfile = this.profileStorage.get();
         this.headerView.render(activeProfile);
-        this.catalogRenderer.render(categoriesData);
+
+        this.renderCatalog(categoriesData);
+        this.bindMyListUpdates(categoriesData);
+    }
+
+    renderCatalog(categoriesData) {
+        const myListIds = this.myListStorage.getAll();
+        const myListCategory = buildMyListCategory(categoriesData, myListIds);
+        const categoriesToRender = myListCategory
+            ? [myListCategory, ...categoriesData]
+            : categoriesData;
+
+        this.catalogRenderer.render(categoriesToRender);
+    }
+
+    bindMyListUpdates(categoriesData) {
+        document.addEventListener('my-list-updated', () => {
+            this.renderCatalog(categoriesData);
+        });
     }
 }
 
 /* Bootstrap da aplicacao */
 document.addEventListener('DOMContentLoaded', () => {
     const profileStorage = new ActiveProfileStorage(localStorage);
+    const myListStorage = new MyListStorage(localStorage);
     const headerView = new ProfileHeaderView(document.querySelector('.profile-menu'));
     const catalogRenderer = new CatalogRenderer(
         document.getElementById('main-content'),
         createCarousel
     );
 
-    const app = new CatalogApp(profileStorage, headerView, catalogRenderer);
+    const app = new CatalogApp(profileStorage, myListStorage, headerView, catalogRenderer);
     app.init(categories);
 });
