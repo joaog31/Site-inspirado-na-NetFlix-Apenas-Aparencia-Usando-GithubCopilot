@@ -15,24 +15,24 @@ export const categories = [
                 releaseDate: "03/04/2016",
                 communityRating: "8.3/10",
                 summary: "Em um mundo de superpoderes, Izuku Midoriya herda um dom lendário e entra na principal escola de heróis.",
-                img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=1200&auto=format&fit=crop", progress: 0,
-                youtube: "https://www.youtube.com/watch?v=cXg62-t8BWs"
+                img: "https://imgs.search.brave.com/f6LxcpS5tWsee7WpwhW0Q16bRR5nCXNz-dFvKOJsUHE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXQuY29t/L3cvZnVsbC8yLzUv/Yi8yODk0Ni0zODQw/eDIxNjAtZGVza3Rv/cC00ay1teS1oZXJv/LWFjYWRlbWlhLXdh/bGxwYXBlci1pbWFn/ZS5qcGc", progress: 0,
+                youtube: "https://youtu.be/zz37nGym3OQ?si=930t7DSRxYlSLn7G"
             },
             {
                 title: "Sentenced to Be a Hero",
                 releaseDate: "Lançado em 2025",
                 communityRating: "8.0/10",
                 summary: "Condenados transformados em soldados enfrentam missões suicidas para reduzir suas sentenças em uma guerra cruel, agora em exibição.",
-                img: "https://images.unsplash.com/photo-1505685296765-3a2736de412f?q=80&w=1200&auto=format&fit=crop", progress: 0,
-                youtube: "https://www.youtube.com/watch?v=zckJCxYxn1g"
+                img: "https://imgs.search.brave.com/gK4yFFCwtc_ZmMJXpIsLleHe9F8ItzRGLL-JG_UUmzY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDE2MTAx/Mjg0LnBuZw", progress: 0,
+                youtube: "https://youtu.be/B5qZX2kh-7w?si=o7i5LkLEtqbtKkp_"
             },
             {
                 title: "Jujutsu Kaisen",
                 releaseDate: "03/10/2020",
                 communityRating: "8.6/10",
                 summary: "Yuji Itadori entra no mundo dos feiticeiros para combater maldições após se tornar hospedeiro de Sukuna.",
-                img: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1200&auto=format&fit=crop", progress: 0,
-                youtube: "https://www.youtube.com/watch?v=a06zxOyQrAs"
+                img: "https://imgs.search.brave.com/BK-rlX5oj4ypgtkqTIzKqKMVppKZzYYK7BvcYBUNc50/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9ibG9n/Z2VyLmdvb2dsZXVz/ZXJjb250ZW50LmNv/bS9pbWcvYi9SMjl2/WjJ4bC9BVnZYc0Vp/VllYS0M1VGtMWjY4/ZVFRYV9qZVoyYnhI/bEdTN2g2NGpUbUVj/TWtYM1U4WURDSkhi/RkZMZUNPeGRVZ1Vz/VndZU0hfUlFaVTVO/dVJ4RkxETGl2eXNR/UmJ0RS1lX3lfa2Vr/VTdPLVJoM3NHQTRz/aG9HazVuaDJ4U2xN/TldiMFVBUGlsMzN5/RkNXenBzMjNYX0F3/T29jSnFURVZDcW13/WWQ0ZUFDZ2hRY1Fm/OXhRM2lhaXFOcmNx/LTV0Y0VBbmZKL3Mx/NjAwMC1ydy8xMDAw/MjI1NTQyLndlYnA", progress: 0,
+                youtube: "https://youtu.be/ztO4Bk0ALGI?si=xfWeDFTDqOqTlbM4"
             },
         ]
     },
