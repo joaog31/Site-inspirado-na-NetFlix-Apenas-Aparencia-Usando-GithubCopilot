@@ -4,14 +4,26 @@
 
 const PROFILE_NAME_KEY = 'perfilAtivoNome';
 const PROFILE_IMAGE_KEY = 'perfilAtivoImagem';
+const PROFILE_ID_KEY = 'perfilAtivoId';
 const CATALOG_PATH = 'catalogo/catalogo.html';
+
+/* Gera identificador estavel para separar dados por perfil */
+function createProfileId(name) {
+    return name
+        .normalize('NFD')
+    .replaceAll(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toLowerCase()
+        .replaceAll(' ', '-');
+}
 
 /* Responsavel por persistir o perfil selecionado no navegador */
 class ActiveProfileStorage {
-    constructor(storage, nameKey = PROFILE_NAME_KEY, imageKey = PROFILE_IMAGE_KEY) {
+    constructor(storage, nameKey = PROFILE_NAME_KEY, imageKey = PROFILE_IMAGE_KEY, idKey = PROFILE_ID_KEY) {
         this.storage = storage;
         this.nameKey = nameKey;
         this.imageKey = imageKey;
+        this.idKey = idKey;
     }
 
     set(profile) {
@@ -21,6 +33,7 @@ class ActiveProfileStorage {
 
         this.storage.setItem(this.nameKey, profile.name);
         this.storage.setItem(this.imageKey, profile.image);
+        this.storage.setItem(this.idKey, profile.id);
     }
 }
 
@@ -36,7 +49,8 @@ class ProfileExtractor {
 
         return {
             name: captionElement.textContent.trim(),
-            image: imageElement.getAttribute('src')
+            image: imageElement.getAttribute('src'),
+            id: createProfileId(captionElement.textContent)
         };
     }
 }

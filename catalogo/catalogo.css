@@ -168,8 +168,11 @@ a:hover {
 }
 
 .profile-icon {
-    font-size: 28px;
-    color: var(--text-color);
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    object-fit: cover;
+    transition: filter 0.2s ease;
 }
 
 .profile-caret {
@@ -180,6 +183,87 @@ a:hover {
 .profile-menu:hover .profile-icon,
 .profile-menu:hover .profile-caret {
     color: var(--link-hover);
+}
+
+.profile-menu:hover .profile-icon {
+    filter: brightness(1.08);
+}
+
+/* ===========================
+   PAGINA MINHA LISTA
+   =========================== */
+
+.my-list-page {
+    min-height: 100vh;
+    padding: 96px 4% 20px;
+}
+
+.my-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin: 0 auto 14px;
+    max-width: 1200px;
+}
+
+.my-list-header h1 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--text-color);
+    letter-spacing: -0.5px;
+}
+
+.clear-my-list-btn {
+    border: 1px solid rgba(229, 9, 20, 0.65);
+    background: rgba(229, 9, 20, 0.14);
+    color: var(--text-color);
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.clear-my-list-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: rgba(229, 9, 20, 0.24);
+}
+
+.clear-my-list-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.my-list-content {
+    padding-top: 6px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.empty-my-list {
+    max-width: 920px;
+    margin: 26px auto;
+    padding: 28px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+body.theme-light .empty-my-list {
+    border-color: rgba(0, 0, 0, 0.12);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.empty-my-list h2 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.empty-my-list p {
+    color: var(--muted-text);
+    font-size: 0.96rem;
 }
 
 /* ===========================
@@ -666,6 +750,15 @@ footer {
 
     .sliders-container {
         padding-top: 122px;
+    }
+
+    .my-list-page {
+        padding-top: 128px;
+    }
+
+    .my-list-header {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .movie-card {

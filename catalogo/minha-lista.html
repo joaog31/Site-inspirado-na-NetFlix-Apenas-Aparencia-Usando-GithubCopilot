@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NETFLIX - Catálogo</title>
+    <title>NETFLIX - Minha lista</title>
     <link rel="stylesheet" href="catalogo.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -18,11 +18,11 @@
             <a href="../index.html" class="logo" aria-label="Voltar para seleção de perfis">NETFLIX</a>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#" class="active">Início</a></li>
-                    <li><a href="#">Séries</a></li>
-                    <li><a href="#">Filmes</a></li>
-                    <li><a href="#">Bombando</a></li>
-                    <li><a href="minha-lista.html">Minha lista</a></li>
+                    <li><a href="catalogo.html">Início</a></li>
+                    <li><a href="catalogo.html">Séries</a></li>
+                    <li><a href="catalogo.html">Filmes</a></li>
+                    <li><a href="catalogo.html">Bombando</a></li>
+                    <li><a href="#" class="active">Minha lista</a></li>
                 </ul>
             </nav>
         </div>
@@ -41,10 +41,15 @@
     </header>
 
     <!-- ===========================
-         CONTAINER DE CARROSSEIS
+         CONTEUDO DA MINHA LISTA
          =========================== -->
-    <main class="sliders-container" id="main-content">
-        <!-- O JavaScript injeta os carrosseis dinamicamente aqui -->
+    <main class="my-list-page">
+        <section class="my-list-header">
+            <h1>Minha lista</h1>
+            <button id="clear-my-list" class="clear-my-list-btn" type="button">Limpar minha lista</button>
+        </section>
+
+        <section id="my-list-content" class="sliders-container my-list-content" aria-live="polite"></section>
     </main>
 
     <!-- ===========================
@@ -73,7 +78,7 @@
         </div>
     </footer>
 
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/my-list.js"></script>
     <script src="../theme.js" defer></script>
 </body>
 

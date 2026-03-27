@@ -5,7 +5,18 @@ import { getYouTubeId, getRandomMatchScore, getRandomDuration, getRandomAgeBadge
     =========================== */
 
 let cardSequence = 0;
+const PROFILE_ID_KEY = 'perfilAtivoId';
 const MY_LIST_STORAGE_KEY = 'catalogo-minha-lista';
+
+/* Monta a chave final da lista com escopo por perfil */
+function getMyListStorageKey(profileId = 'default') {
+    return `${MY_LIST_STORAGE_KEY}-${profileId}`;
+}
+
+/* Recupera o identificador do perfil ativo no catalogo */
+function getActiveProfileId(storage) {
+    return storage.getItem(PROFILE_ID_KEY) || 'default';
+}
 
 /* Persiste e consulta a lista pessoal do usuario */
 class MyListStorage {
@@ -272,7 +283,8 @@ export function createCard(item, randomSource = Math.random) {
         card.classList.add('has-progress');
     }
 
-    const myListStorage = new MyListStorage(localStorage);
+    const activeProfileId = getActiveProfileId(localStorage);
+    const myListStorage = new MyListStorage(localStorage, getMyListStorageKey(activeProfileId));
     const workId = createWorkId(item);
     const isInMyList = myListStorage.has(workId);
     const videoId = getYouTubeId(item.youtube);
