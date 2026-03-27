@@ -311,9 +311,9 @@ figcaption {
     border: 1px solid var(--button-border);
     background: var(--button-bg);
     color: var(--button-color);
-    padding: 10px 14px;
-    border-radius: 999px;
-    font-size: 0.9rem;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.3px;
     cursor: pointer;

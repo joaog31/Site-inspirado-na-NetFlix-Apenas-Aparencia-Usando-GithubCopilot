@@ -95,7 +95,6 @@ function renderResults(resultsContainer, results, onSelectResult) {
         button.type = 'button';
         button.innerHTML = `
             <span class="search-result-title">${result.item.title}</span>
-            <span class="search-result-score">Similaridade ${Math.round(result.score)}%</span>
         `;
 
         button.addEventListener('click', () => onSelectResult(result.item));
