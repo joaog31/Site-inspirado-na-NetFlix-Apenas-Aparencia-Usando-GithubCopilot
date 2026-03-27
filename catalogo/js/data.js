@@ -40,44 +40,44 @@ export const categories = [
         title: "Séries",
         items: [
             {
-                title: "Noites em Orion",
-                releaseDate: "21/09/2022",
-                communityRating: "8.1/10",
-                summary: "Uma investigadora descobre uma rede secreta de vigilância que conecta crimes aparentemente sem relação.",
-                img: "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?q=80&w=600&auto=format&fit=crop",
+                title: "Stranger Things",
+                releaseDate: "15/07/2016",
+                communityRating: "8.7/10",
+                summary: "Em uma pequena cidade, o desaparecimento de um garoto revela experimentos secretos e uma dimensão assustadora.",
+                img: "https://upload.wikimedia.org/wikipedia/en/f/f7/Stranger_Things_season_4.jpg",
                 top10: true,
                 badge: "Nova temporada",
                 badgeColor: "red",
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=b9EkMc79ZSU"
             },
             {
-                title: "Distrito 44",
-                releaseDate: "10/03/2021",
-                communityRating: "7.9/10",
-                summary: "No subúrbio mais tenso da cidade, uma equipe de detetives tenta impedir uma guerra entre facções.",
-                img: "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?q=80&w=600&auto=format&fit=crop",
+                title: "Breaking Bad",
+                releaseDate: "20/01/2008",
+                communityRating: "9.5/10",
+                summary: "Um professor de química com câncer entra no tráfico de metanfetamina e transforma sua vida para sempre.",
+                img: "https://upload.wikimedia.org/wikipedia/en/6/61/Breaking_Bad_title_card.png",
                 top10: true,
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=HhesaQXLuRY"
             },
             {
-                title: "Código Violeta",
-                releaseDate: "17/08/2023",
-                communityRating: "8.3/10",
-                summary: "Uma analista de dados encontra padrões ocultos em casos arquivados e ativa uma investigação internacional.",
-                img: "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?q=80&w=600&auto=format&fit=crop",
+                title: "Dark",
+                releaseDate: "01/12/2017",
+                communityRating: "8.7/10",
+                summary: "Quatro famílias se envolvem em um mistério de viagens no tempo que conecta passado, presente e futuro.",
+                img: "https://upload.wikimedia.org/wikipedia/en/d/da/DarkNetflixPosterEnglish.jpg",
                 badge: "Novo episódio",
                 badgeColor: "red",
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=rrwycJ08PSA"
             },
             {
-                title: "Avenida 8",
-                releaseDate: "05/05/2020",
-                communityRating: "7.6/10",
-                summary: "Entre música, rivalidade e fama repentina, quatro artistas tentam sobreviver aos bastidores da indústria.",
-                img: "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?q=80&w=600&auto=format&fit=crop",
+                title: "Peaky Blinders",
+                releaseDate: "12/09/2013",
+                communityRating: "8.8/10",
+                summary: "Após a Primeira Guerra, Tommy Shelby lidera sua gangue em Birmingham em busca de poder e influência.",
+                img: "https://upload.wikimedia.org/wikipedia/en/e/e8/Peaky_Blinders_titlecard.jpg",
                 badge: "Novidade",
                 badgeColor: "red",
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=oVzVdvGIC7U"
             },
         ]
     },
@@ -85,46 +85,46 @@ export const categories = [
         title: "Para maratonar",
         items: [
             {
-                title: "Horizonte Zero",
-                releaseDate: "19/11/2021",
-                communityRating: "8.4/10",
-                summary: "Após um apagão global, sobreviventes atravessam continentes em busca de um abrigo autossustentável.",
-                img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=600&auto=format&fit=crop",
+                title: "A Origem",
+                releaseDate: "16/07/2010",
+                communityRating: "8.8/10",
+                summary: "Um especialista em invadir sonhos aceita implantar uma ideia na mente de um alvo em uma missão arriscada.",
+                img: "https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg",
                 top10: true,
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=YoHD9XEInc0"
             },
             {
-                title: "Limiar",
-                releaseDate: "02/02/2023",
-                communityRating: "8.0/10",
-                summary: "Uma médica forense usa tecnologia experimental para reconstruir memórias em investigações complexas.",
-                img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=600&auto=format&fit=crop",
+                title: "Interestelar",
+                releaseDate: "06/11/2014",
+                communityRating: "8.7/10",
+                summary: "Em um futuro de escassez, astronautas atravessam um buraco de minhoca em busca de um novo lar para a humanidade.",
+                img: "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg",
                 top10: true,
                 badge: "Novidade",
                 badgeColor: "red",
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=zSWdZVtXT7E"
             },
             {
-                title: "Terminal Norte",
-                releaseDate: "11/06/2019",
-                communityRating: "7.7/10",
-                summary: "Um grupo de passageiros presos em uma estação isolada descobre segredos que mudam sua jornada.",
-                img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=600&auto=format&fit=crop",
+                title: "The Batman",
+                releaseDate: "03/03/2022",
+                communityRating: "7.8/10",
+                summary: "No segundo ano como vigilante, Bruce Wayne enfrenta um serial killer que expõe a corrupção de Gotham.",
+                img: "https://upload.wikimedia.org/wikipedia/en/8/8a/The_Batman_poster.jpg",
                 top10: true,
                 badge: "Novo episódio",
                 badgeColor: "red",
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=mqqft2x_Aa4"
             },
             {
-                title: "Cidade de Vidro",
-                releaseDate: "24/01/2024",
-                communityRating: "8.5/10",
-                summary: "Quando uma metrópole inteligente sai do controle, uma engenheira precisa desligar o sistema por dentro.",
-                img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=600&auto=format&fit=crop",
+                title: "Mad Max: Estrada da Fúria",
+                releaseDate: "14/05/2015",
+                communityRating: "8.1/10",
+                summary: "Em um deserto pós-apocalíptico, Max se alia a Furiosa em uma fuga explosiva contra um tirano.",
+                img: "https://upload.wikimedia.org/wikipedia/en/6/6e/Mad_Max_Fury_Road.jpg",
                 top10: true,
                 badge: "Novo episódio",
                 badgeColor: "red",
-                youtube: "https://www.youtube.com/watch?v=wLo9bfgla4k"
+                youtube: "https://www.youtube.com/watch?v=hEJnMQG9ev8"
             },
         ]
     }
