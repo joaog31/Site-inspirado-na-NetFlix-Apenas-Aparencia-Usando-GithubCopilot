@@ -108,7 +108,9 @@ class MyListPageController {
 
 /* Destaca e rola ate o card selecionado na busca */
 function focusWorkCard(workId) {
-    const card = document.querySelector(`.movie-card[data-work-id="${workId}"]`);
+    const card = Array.from(document.querySelectorAll('.movie-card')).find(
+        (cardElement) => cardElement.dataset.workId === workId
+    );
 
     if (!card) {
         return;

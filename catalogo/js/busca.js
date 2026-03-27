@@ -121,14 +121,19 @@ export function inicializarBusca({
         return;
     }
 
+    panel.hidden = true;
+    triggerButton.setAttribute('aria-expanded', 'false');
+
     const closePanel = () => {
         panel.hidden = true;
+        triggerButton.setAttribute('aria-expanded', 'false');
         input.value = '';
         renderPrompt(resultsContainer);
     };
 
     const openPanel = () => {
         panel.hidden = false;
+        triggerButton.setAttribute('aria-expanded', 'true');
         renderPrompt(resultsContainer);
         input.focus();
     };
@@ -161,7 +166,14 @@ export function inicializarBusca({
         });
     };
 
-    triggerButton.addEventListener('click', openPanel);
+    triggerButton.addEventListener('click', () => {
+        if (panel.hidden) {
+            openPanel();
+            return;
+        }
+
+        closePanel();
+    });
     closeButton.addEventListener('click', closePanel);
     input.addEventListener('input', runSearch);
 

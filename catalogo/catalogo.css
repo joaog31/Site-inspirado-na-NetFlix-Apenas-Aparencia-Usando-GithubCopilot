@@ -222,6 +222,10 @@ a:hover {
     padding: 110px 16px 24px;
 }
 
+.search-panel[hidden] {
+    display: none;
+}
+
 .search-panel-box {
     width: min(760px, 100%);
     border-radius: 14px;
