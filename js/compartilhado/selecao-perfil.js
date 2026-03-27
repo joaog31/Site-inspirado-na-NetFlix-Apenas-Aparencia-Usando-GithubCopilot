@@ -72,7 +72,9 @@ const AVATARES_DISPONIVEIS = [
     'ativos/perfis/profile1.svg',
     'ativos/perfis/profile2.svg',
     'ativos/perfis/profile3.svg',
-    'ativos/perfis/profile4.svg'
+    'ativos/perfis/profile4.svg',
+    'ativos/perfis/profile5.svg',
+    'ativos/perfis/profile6.svg'
 ];
 
 class GerenciadorPerfisUI {
