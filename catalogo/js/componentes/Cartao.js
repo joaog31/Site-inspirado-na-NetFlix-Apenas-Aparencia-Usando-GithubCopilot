@@ -239,10 +239,7 @@ class CardHoverVideoController {
 
     openMobileCard() {
         this.applyScaleOrigin();
-        const rowElement = this.card.closest('.movie-row');
-        if (rowElement) {
-            rowElement.classList.add('has-open-card');
-        }
+        document.body.classList.add('has-open-mobile-card');
         this.card.classList.add('mobile-open');
         this.startPlayback(250);
         CardHoverVideoController.activeMobileCard = this;
@@ -281,10 +278,7 @@ class CardHoverVideoController {
         this.iframe.classList.remove('playing');
         this.img.classList.remove('playing-video');
         this.iframe.src = '';
-        const rowElement = this.card.closest('.movie-row');
-        if (rowElement) {
-            rowElement.classList.remove('has-open-card');
-        }
+        document.body.classList.remove('has-open-mobile-card');
         this.card.classList.remove('mobile-open', 'origin-left', 'origin-right');
         closeSummaryIfOpen(this.card);
     }
