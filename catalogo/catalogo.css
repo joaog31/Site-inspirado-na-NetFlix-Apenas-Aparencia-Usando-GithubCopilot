@@ -952,7 +952,7 @@ footer {
         height: 102px;
     }
 
-    .movie-card:hover {
+    .movie-card:not(.mobile-open):hover {
         transform: none;
         z-index: 1;
         border-radius: 4px;
@@ -960,13 +960,13 @@ footer {
         transition: none;
     }
 
-    .movie-card:hover .card-details {
+    .movie-card:not(.mobile-open):hover .card-details {
         opacity: 0;
         visibility: hidden;
         transition: none;
     }
 
-    .movie-card:hover img {
+    .movie-card:not(.mobile-open):hover img {
         border-radius: 4px;
         transition: none;
     }
