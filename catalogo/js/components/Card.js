@@ -1,5 +1,16 @@
 import { getYouTubeId, getRandomMatchScore, getRandomDuration, getRandomAgeBadge } from '../utils.js';
 
+let cardSequence = 0;
+
+function getMovieInfo(item) {
+    return {
+        title: item.title || 'Título indisponível',
+        summary: item.summary || 'Resumo indisponível no momento.',
+        releaseDate: item.releaseDate || 'Data não informada',
+        communityRating: item.communityRating || 'Sem nota'
+    };
+}
+
 function createMediaElements(item, videoId) {
     const img = document.createElement('img');
     img.src = item.img;
@@ -13,7 +24,9 @@ function createMediaElements(item, videoId) {
     return { img, iframe };
 }
 
-function createDetailsElement(item, metadata) {
+function createDetailsElement(item, metadata, movieInfo, cardId) {
+    const summaryId = `${cardId}-summary`;
+
     const details = document.createElement('div');
     details.className = 'card-details';
     details.innerHTML = `
@@ -24,7 +37,9 @@ function createDetailsElement(item, metadata) {
                 <button class="btn-icon"><i class="fas fa-thumbs-up"></i></button>
             </div>
             <div class="right-buttons">
-                <button class="btn-icon"><i class="fas fa-chevron-down"></i></button>
+                <button class="btn-icon btn-expand-summary" type="button" aria-expanded="false" aria-controls="${summaryId}" aria-label="Abrir resumo de ${movieInfo.title}">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
             </div>
         </div>
         <div class="details-info">
@@ -38,9 +53,49 @@ function createDetailsElement(item, metadata) {
             <span>Animação</span>
             <span>Ficção</span>
         </div>
+        <div class="movie-summary" id="${summaryId}" hidden>
+            <p class="movie-summary-title">${movieInfo.title}</p>
+            <p class="movie-summary-text">${movieInfo.summary}</p>
+            <div class="movie-summary-meta">
+                <span><strong>Lançamento:</strong> ${movieInfo.releaseDate}</span>
+                <span><strong>Nota da comunidade:</strong> ${movieInfo.communityRating}</span>
+            </div>
+        </div>
     `;
 
     return details;
+}
+
+function bindSummaryToggle(detailsElement) {
+    const toggleButton = detailsElement.querySelector('.btn-expand-summary');
+    const summaryPanel = detailsElement.querySelector('.movie-summary');
+
+    if (!toggleButton || !summaryPanel) {
+        return;
+    }
+
+    toggleButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const shouldOpen = toggleButton.getAttribute('aria-expanded') !== 'true';
+        toggleButton.setAttribute('aria-expanded', String(shouldOpen));
+        toggleButton.classList.toggle('is-open', shouldOpen);
+        summaryPanel.hidden = !shouldOpen;
+    });
+}
+
+function closeSummaryIfOpen(cardElement) {
+    const toggleButton = cardElement.querySelector('.btn-expand-summary');
+    const summaryPanel = cardElement.querySelector('.movie-summary');
+
+    if (!toggleButton || !summaryPanel) {
+        return;
+    }
+
+    toggleButton.setAttribute('aria-expanded', 'false');
+    toggleButton.classList.remove('is-open');
+    summaryPanel.hidden = true;
 }
 
 function createProgressBar(progressValue) {
@@ -92,6 +147,7 @@ class CardHoverVideoController {
         this.img.classList.remove('playing-video');
         this.iframe.src = '';
         this.card.classList.remove('origin-left', 'origin-right');
+        closeSummaryIfOpen(this.card);
     }
 
     createEmbedUrl() {
@@ -110,6 +166,7 @@ function createMetadata(item, randomSource = Math.random) {
 export function createCard(item, randomSource = Math.random) {
     const card = document.createElement('div');
     card.className = 'movie-card';
+    cardSequence += 1;
 
     if (item.progress) {
         card.classList.add('has-progress');
@@ -118,11 +175,13 @@ export function createCard(item, randomSource = Math.random) {
     const videoId = getYouTubeId(item.youtube);
     const { img, iframe } = createMediaElements(item, videoId);
     const metadata = createMetadata(item, randomSource);
-    const details = createDetailsElement(item, metadata);
+    const movieInfo = getMovieInfo(item);
+    const details = createDetailsElement(item, metadata, movieInfo, `movie-card-${cardSequence}`);
 
     card.appendChild(iframe);
     card.appendChild(img);
     card.appendChild(details);
+    bindSummaryToggle(details);
 
     if (item.progress) {
         card.appendChild(createProgressBar(item.progress));

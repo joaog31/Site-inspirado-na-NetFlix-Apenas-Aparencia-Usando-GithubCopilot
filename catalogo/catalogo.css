@@ -127,11 +127,6 @@ a:hover {
     color: var(--text-color);
 }
 
-.kids-link {
-    font-size: 14px;
-    font-weight: 600;
-}
-
 .nav-notification {
     position: relative;
     cursor: pointer;
@@ -161,8 +156,18 @@ a:hover {
 }
 
 .profile-icon {
-    width: 32px;
-    border-radius: 4px;
+    font-size: 28px;
+    color: var(--text-color);
+}
+
+.profile-caret {
+    font-size: 14px;
+    margin-left: 2px;
+}
+
+.profile-menu:hover .profile-icon,
+.profile-menu:hover .profile-caret {
+    color: var(--link-hover);
 }
 
 .sliders-container {
@@ -367,6 +372,14 @@ body.theme-light .btn-icon:hover {
     margin-left: 2px;
 }
 
+.btn-expand-summary i {
+    transition: transform 0.2s ease;
+}
+
+.btn-expand-summary.is-open i {
+    transform: rotate(180deg);
+}
+
 .details-info {
     display: flex;
     align-items: center;
@@ -425,6 +438,44 @@ body.theme-light .resolution {
     content: "•";
     color: #666;
     margin-left: 6px;
+}
+
+.movie-summary {
+    margin-top: 2px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.movie-summary[hidden] {
+    display: none !important;
+}
+
+body.theme-light .movie-summary {
+    border-top-color: rgba(0, 0, 0, 0.14);
+}
+
+.movie-summary-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.movie-summary-text {
+    font-size: 11px;
+    line-height: 1.45;
+    color: var(--text-color);
+    opacity: 0.92;
+}
+
+.movie-summary-meta {
+    display: grid;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-color);
+    opacity: 0.88;
 }
 
 .badge-top10 {

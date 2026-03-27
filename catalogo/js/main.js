@@ -2,41 +2,37 @@ import { categories } from './data.js';
 import { createCarousel } from './components/Carousel.js';
 
 const PROFILE_NAME_KEY = 'perfilAtivoNome';
-const PROFILE_IMAGE_KEY = 'perfilAtivoImagem';
 
 class ActiveProfileStorage {
-    constructor(storage, nameKey = PROFILE_NAME_KEY, imageKey = PROFILE_IMAGE_KEY) {
+    constructor(storage, nameKey = PROFILE_NAME_KEY) {
         this.storage = storage;
         this.nameKey = nameKey;
-        this.imageKey = imageKey;
     }
 
     get() {
         const name = this.storage.getItem(this.nameKey);
-        const image = this.storage.getItem(this.imageKey);
 
-        if (!name || !image) {
+        if (!name) {
             return null;
         }
 
-        return { name, image };
+        return { name };
     }
 }
 
 class ProfileHeaderView {
-    constructor(nameElement, imageElement) {
-        this.nameElement = nameElement;
-        this.imageElement = imageElement;
+    constructor(profileMenuElement) {
+        this.profileMenuElement = profileMenuElement;
     }
 
     render(profile) {
-        if (!profile || !this.nameElement || !this.imageElement) {
+        if (!this.profileMenuElement) {
             return;
         }
 
-        this.nameElement.textContent = profile.name;
-        this.imageElement.src = profile.image;
-        this.imageElement.alt = `Perfil de ${profile.name}`;
+        const label = profile ? `Perfil de ${profile.name}` : 'Perfil';
+        this.profileMenuElement.setAttribute('aria-label', label);
+        this.profileMenuElement.title = label;
     }
 }
 
@@ -73,10 +69,7 @@ class CatalogApp {
 
 document.addEventListener('DOMContentLoaded', () => {
     const profileStorage = new ActiveProfileStorage(localStorage);
-    const headerView = new ProfileHeaderView(
-        document.querySelector('.kids-link'),
-        document.querySelector('.profile-icon')
-    );
+    const headerView = new ProfileHeaderView(document.querySelector('.profile-menu'));
     const catalogRenderer = new CatalogRenderer(
         document.getElementById('main-content'),
         createCarousel
