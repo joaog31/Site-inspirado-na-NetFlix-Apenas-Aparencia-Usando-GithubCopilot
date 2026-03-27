@@ -174,6 +174,8 @@ class CardHoverVideoController {
         this.img = img;
         this.videoId = videoId;
         this.playTimeout = null;
+        this.originalParent = null;
+        this.originalNextSibling = null;
 
         this.handleCardTap = (event) => this.onCardTap(event);
         this.handleViewportChange = () => this.onViewportChange();
@@ -212,11 +214,11 @@ class CardHoverVideoController {
             return;
         }
 
-        const interactiveTarget = event.target.closest('.btn-icon, .movie-summary, .card-details p, .card-details span, .card-details strong');
+        const interactiveTarget = event.target.closest('.btn-icon, .movie-summary, .card-details');
 
         if (this.card.classList.contains('mobile-open')) {
-            event.preventDefault();
-            event.stopPropagation();
+            // Quando o menu ja esta aberto, cliques internos devem ser tratados
+            // apenas pelos elementos do proprio menu (sem fechar/reabrir card).
             return;
         }
 
@@ -238,6 +240,7 @@ class CardHoverVideoController {
         this.applyScaleOrigin();
         CardHoverVideoController.ensureMobileBackdrop();
         CardHoverVideoController.mobileBackdrop.classList.add('is-active');
+        this.detachCardToBody();
         document.body.classList.add('has-open-mobile-card');
         this.card.classList.add('mobile-open');
         this.startPlayback(250);
@@ -287,6 +290,34 @@ class CardHoverVideoController {
         this.card.style.top = '';
         this.card.style.transform = '';
         closeSummaryIfOpen(this.card);
+        this.restoreCardToOriginalPlace();
+    }
+
+    detachCardToBody() {
+        if (this.card.classList.contains('mobile-detached')) {
+            return;
+        }
+
+        this.originalParent = this.card.parentElement;
+        this.originalNextSibling = this.card.nextSibling;
+        this.card.classList.add('mobile-detached');
+        document.body.appendChild(this.card);
+    }
+
+    restoreCardToOriginalPlace() {
+        if (!this.card.classList.contains('mobile-detached') || !this.originalParent) {
+            return;
+        }
+
+        if (this.originalNextSibling && this.originalNextSibling.parentNode === this.originalParent) {
+            this.originalParent.insertBefore(this.card, this.originalNextSibling);
+        } else {
+            this.originalParent.appendChild(this.card);
+        }
+
+        this.card.classList.remove('mobile-detached');
+        this.originalParent = null;
+        this.originalNextSibling = null;
     }
 
     static ensureMobileBackdrop() {

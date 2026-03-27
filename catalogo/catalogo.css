@@ -993,12 +993,17 @@ footer {
         width: min(94vw, 520px);
         height: auto;
         transform: translate(-50%, -50%);
-        z-index: 1400;
+        z-index: 1600;
         border-radius: 10px;
         box-shadow: 0 20px 64px rgba(0, 0, 0, 0.76);
         display: flex;
         flex-direction: column;
         align-items: stretch;
+        pointer-events: auto;
+    }
+
+    .movie-card.mobile-detached {
+        margin: 0;
     }
 
     body.has-open-mobile-card {
@@ -1010,7 +1015,7 @@ footer {
         inset: 0;
         border: 0;
         background: rgba(0, 0, 0, 0.26);
-        z-index: 1300;
+        z-index: 1500;
         opacity: 0;
         pointer-events: none;
     }
