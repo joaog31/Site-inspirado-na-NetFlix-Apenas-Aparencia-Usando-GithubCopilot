@@ -98,34 +98,27 @@ class MyListPageController {
         const myListIds = this.myListStorage.getAll();
         const items = getMyListItems(categoriesData, myListIds);
         this.currentItems = items;
+        document.body.classList.remove('modo-busca-resultado');
         this.listView.render(items);
     }
 
     getCurrentItems() {
         return this.currentItems;
     }
-}
 
-/* Destaca e rola ate o card selecionado na busca */
-function focusWorkCard(workId) {
-    const card = Array.from(document.querySelectorAll('.movie-card')).find(
-        (cardElement) => cardElement.dataset.workId === workId
-    );
+    renderOnlyItem(item) {
+        if (!item) {
+            return;
+        }
 
-    if (!card) {
-        return;
+        this.currentItems = [item];
+        document.body.classList.add('modo-busca-resultado');
+        this.listView.render(this.currentItems);
     }
-
-    card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-    card.classList.add('search-highlight');
-
-    setTimeout(() => {
-        card.classList.remove('search-highlight');
-    }, 1800);
 }
 
 /* Inicializa a interface de busca com base na lista exibida */
-function setupSearch(getSourceItems) {
+function setupSearch(getSourceItems, onSelectItem) {
     inicializarBusca({
         triggerButton: document.getElementById('search-trigger'),
         panel: document.getElementById('search-panel'),
@@ -133,7 +126,7 @@ function setupSearch(getSourceItems) {
         input: document.getElementById('search-input'),
         resultsContainer: document.getElementById('search-results'),
         getSourceItems,
-        onSelectResult: (_item, workId) => focusWorkCard(workId)
+        onSelectResult: (item) => onSelectItem(item)
     });
 }
 
@@ -154,5 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const controller = new MyListPageController(profileStorage, myListStorage, headerView, listView);
     controller.init(categorias, clearButton);
 
-    setupSearch(() => controller.getCurrentItems());
+    setupSearch(
+        () => controller.getCurrentItems(),
+        (item) => controller.renderOnlyItem(item)
+    );
 });

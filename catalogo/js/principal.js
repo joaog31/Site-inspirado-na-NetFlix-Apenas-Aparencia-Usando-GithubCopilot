@@ -60,30 +60,22 @@ class CatalogApp {
     init(categoriesData) {
         const activeProfile = this.profileStorage.get();
         this.headerView.render(activeProfile);
+        document.body.classList.remove('modo-busca-resultado');
         this.catalogRenderer.render(categoriesData);
     }
-}
 
-/* Destaca e rola ate o card selecionado na busca */
-function focusWorkCard(workId) {
-    const card = Array.from(document.querySelectorAll('.movie-card')).find(
-        (cardElement) => cardElement.dataset.workId === workId
-    );
+    renderOnlyItem(item) {
+        if (!item) {
+            return;
+        }
 
-    if (!card) {
-        return;
+        document.body.classList.add('modo-busca-resultado');
+        this.catalogRenderer.render([{ title: 'Resultado da busca', items: [item] }]);
     }
-
-    card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-    card.classList.add('search-highlight');
-
-    setTimeout(() => {
-        card.classList.remove('search-highlight');
-    }, 1800);
 }
 
 /* Inicializa a interface de busca com tolerancia a erros */
-function setupSearch() {
+function setupSearch(catalogApp) {
     inicializarBusca({
         triggerButton: document.getElementById('search-trigger'),
         panel: document.getElementById('search-panel'),
@@ -91,7 +83,7 @@ function setupSearch() {
         input: document.getElementById('search-input'),
         resultsContainer: document.getElementById('search-results'),
         getSourceItems: () => categorias.flatMap((category) => category.items),
-        onSelectResult: (_item, workId) => focusWorkCard(workId)
+        onSelectResult: (item) => catalogApp.renderOnlyItem(item)
     });
 }
 
@@ -110,5 +102,5 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = new CatalogApp(profileStorage, headerView, catalogRenderer);
     app.init(categorias);
 
-    setupSearch();
+    setupSearch(app);
 });

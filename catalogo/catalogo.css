@@ -333,6 +333,30 @@ body.theme-light .search-empty {
     outline-offset: 4px;
 }
 
+body.modo-busca-resultado .sliders-container {
+    display: flex;
+    justify-content: center;
+}
+
+body.modo-busca-resultado .slider-section {
+    width: min(100%, 520px);
+}
+
+body.modo-busca-resultado .slider-header {
+    justify-content: center;
+}
+
+body.modo-busca-resultado .slider-indicators {
+    display: none;
+}
+
+body.modo-busca-resultado .movie-row {
+    justify-content: center;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 /* ===========================
    PAGINA MINHA LISTA
    =========================== */
