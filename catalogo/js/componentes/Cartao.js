@@ -188,7 +188,11 @@ class CardHoverVideoController {
     }
 
     detectTouchMode() {
-        return globalThis.matchMedia?.('(hover: none), (pointer: coarse)').matches ?? false;
+        const hasTouchPoints = (globalThis.navigator?.maxTouchPoints ?? 0) > 0;
+        const hasTouchEvent = 'ontouchstart' in globalThis;
+        const coarsePointer = globalThis.matchMedia?.('(hover: none), (pointer: coarse)').matches ?? false;
+
+        return hasTouchPoints || hasTouchEvent || coarsePointer;
     }
 
     onMouseEnter() {

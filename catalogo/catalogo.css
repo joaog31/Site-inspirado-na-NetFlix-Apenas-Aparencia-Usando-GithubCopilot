@@ -482,7 +482,7 @@ body.theme-light .empty-my-list {
     display: flex;
     gap: 8px;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-x;
