@@ -335,7 +335,11 @@ body.theme-light .search-empty {
 
 body.modo-busca-resultado .sliders-container {
     display: flex;
+    align-items: center;
     justify-content: center;
+    min-height: calc(100vh - 140px);
+    padding-top: 90px;
+    padding-bottom: 40px;
 }
 
 body.modo-busca-resultado .slider-section {
