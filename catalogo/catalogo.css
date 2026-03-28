@@ -178,10 +178,14 @@ a:hover {
 }
 
 .profile-menu {
+    border: none;
+    background: none;
+    padding: 0;
     display: flex;
     align-items: center;
     gap: 5px;
     cursor: pointer;
+    position: relative;
 }
 
 .profile-icon {
@@ -195,6 +199,12 @@ a:hover {
 .profile-caret {
     font-size: 14px;
     margin-left: 2px;
+    transition: transform 0.25s ease;
+    transform: rotate(0deg);
+}
+
+.profile-menu.is-open .profile-caret {
+    transform: rotate(180deg);
 }
 
 .profile-menu:hover .profile-icon,
@@ -954,19 +964,8 @@ footer {
 }
 
 /* ===========================
-   MENU DE PERFIL E DROPDOWN
-   =========================== */
-
-.profile-menu {
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    position: relative;
-}
+    MENU DE PERFIL E DROPDOWN
+    =========================== */
 
 .profile-dropdown-menu {
     position: absolute;
@@ -1226,6 +1225,8 @@ body.theme-light .form-group input:focus {
     background: var(--surface-3);
     border-color: var(--link-hover);
 }
+
+@media (max-width: 768px) {
 
     .movie-card:not(.mobile-open):hover {
         transform: none;

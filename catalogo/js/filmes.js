@@ -4,79 +4,13 @@
 
 import { categorias } from './dados.js';
 import { criarCarrossel } from './componentes/Carrossel.js';
+import { ProfileHeaderView, CatalogRenderer, CatalogPageApp } from './componentes/PaginaCatalogo.js';
 import { inicializarBusca } from './busca.js';
-import { ArmazenamentoPerfilAtivo, normalizarCaminhoImagemPerfil } from './dominio/perfil.js';
+import { ArmazenamentoPerfilAtivo } from './dominio/perfil.js';
 
 /* ===========================
     CONFIGURACAO E CONSTANTES
     =========================== */
-
-/* Atualiza informacoes de acessibilidade do menu de perfil */
-class ProfileHeaderView {
-    constructor(profileMenuElement, profileImageElement) {
-        this.profileMenuElement = profileMenuElement;
-        this.profileImageElement = profileImageElement;
-    }
-
-    render(profile) {
-        if (!this.profileMenuElement || !this.profileImageElement) {
-            return;
-        }
-
-        const label = profile ? `Perfil de ${profile.name}` : 'Perfil';
-        this.profileMenuElement.setAttribute('aria-label', label);
-        this.profileMenuElement.title = label;
-
-        const imageSrc = profile ? normalizarCaminhoImagemPerfil(profile.image) : '../ativos/perfis/profile1.svg';
-        this.profileImageElement.src = imageSrc;
-        this.profileImageElement.alt = label;
-    }
-}
-
-/* Renderiza as secoes de filmes no container principal */
-class FilmesRenderer {
-    constructor(container, carouselFactory) {
-        this.container = container;
-        this.carouselFactory = carouselFactory;
-    }
-
-    render(categoriesData) {
-        if (!this.container) {
-            return;
-        }
-
-        this.container.innerHTML = '';
-
-        categoriesData.forEach((category) => {
-            this.container.appendChild(this.carouselFactory(category));
-        });
-    }
-}
-
-/* Controlador principal da pagina de filmes */
-class FilmesApp {
-    constructor(profileStorage, headerView, filmesRenderer) {
-        this.profileStorage = profileStorage;
-        this.headerView = headerView;
-        this.filmesRenderer = filmesRenderer;
-    }
-
-    init(filmesData) {
-        const activeProfile = this.profileStorage.get();
-        this.headerView.render(activeProfile);
-        document.body.classList.remove('modo-busca-resultado');
-        this.filmesRenderer.render(filmesData);
-    }
-
-    renderOnlyItem(item) {
-        if (!item) {
-            return;
-        }
-
-        document.body.classList.add('modo-busca-resultado');
-        this.filmesRenderer.render([{ title: 'Resultado da busca', items: [item] }]);
-    }
-}
 
 /* Filtra apenas os filmes do catalogo */
 function extrairFilmes(categoriesData) {
@@ -85,7 +19,7 @@ function extrairFilmes(categoriesData) {
 }
 
 /* Inicializa a interface de busca com tolerancia a erros */
-function setupSearch(filmesApp) {
+function setupSearch(filmesPageApp) {
     const filmesData = extrairFilmes(categorias);
     const allFilmesItems = filmesData.flatMap((category) => category.items);
 
@@ -96,7 +30,7 @@ function setupSearch(filmesApp) {
         input: document.getElementById('search-input'),
         resultsContainer: document.getElementById('search-results'),
         getSourceItems: () => allFilmesItems,
-        onSelectResult: (item) => filmesApp.renderOnlyItem(item)
+        onSelectResult: (item) => filmesPageApp.renderOnlyItem(item)
     });
 }
 
@@ -107,12 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.profile-menu'),
         document.querySelector('.profile-icon')
     );
-    const filmesRenderer = new FilmesRenderer(
+    const filmesRenderer = new CatalogRenderer(
         document.getElementById('main-content'),
         criarCarrossel
     );
 
-    const filmesApp = new FilmesApp(profileStorage, headerView, filmesRenderer);
+    const filmesApp = new CatalogPageApp(profileStorage, headerView, filmesRenderer);
 
     /* Filtra apenas a categoria de filmes */
     const filmesData = extrairFilmes(categorias);

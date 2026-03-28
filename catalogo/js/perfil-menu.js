@@ -25,8 +25,10 @@ class ProfileDropdownController {
             this.toggle();
         });
 
-        document.addEventListener('click', () => {
-            if (this.isOpen) this.close();
+        document.addEventListener('click', (e) => {
+            if (this.isOpen && !this.profileMenuBtn.contains(e.target) && !this.dropdownMenu.contains(e.target)) {
+                this.close();
+            }
         });
 
         this.dropdownMenu.addEventListener('click', (e) => {
@@ -40,11 +42,13 @@ class ProfileDropdownController {
 
     open() {
         this.dropdownMenu.classList.add('active');
+        this.profileMenuBtn.classList.add('is-open');
         this.isOpen = true;
     }
 
     close() {
         this.dropdownMenu.classList.remove('active');
+        this.profileMenuBtn.classList.remove('is-open');
         this.isOpen = false;
     }
 }
@@ -58,9 +62,17 @@ class ProfileEditModal {
     }
 
     init() {
+        if (!this.modal) {
+            return;
+        }
+
         const closeBtn = this.modal.querySelector('.profile-edit-close');
         const saveBtn = this.modal.querySelector('.profile-edit-save-btn');
         const cancelBtn = this.modal.querySelector('.profile-edit-cancel-btn');
+
+        if (!closeBtn || !saveBtn || !cancelBtn) {
+            return;
+        }
 
         closeBtn.addEventListener('click', () => this.close());
         cancelBtn.addEventListener('click', () => this.close());
@@ -74,11 +86,19 @@ class ProfileEditModal {
     }
 
     open(profile) {
+        if (!this.modal || !profile) {
+            return;
+        }
+
         this.currentProfile = { ...profile };
 
         const nameInput = this.modal.querySelector('#profile-edit-name');
         const avatarContainer = this.modal.querySelector('.profile-edit-avatar-options');
         const currentImg = this.modal.querySelector('.profile-edit-current-img');
+
+        if (!nameInput || !avatarContainer || !currentImg) {
+            return;
+        }
 
         nameInput.value = profile.name || '';
         currentImg.src = normalizarCaminhoImagemPerfil(profile.image);
@@ -90,6 +110,10 @@ class ProfileEditModal {
     }
 
     renderAvatarOptions(container, currentImage) {
+        if (!container) {
+            return;
+        }
+
         container.innerHTML = '';
 
         AVATAR_OPTIONS.forEach((avatarPath) => {
@@ -126,6 +150,10 @@ class ProfileEditModal {
 
     save() {
         const nameInput = this.modal.querySelector('#profile-edit-name');
+        if (!nameInput || !this.currentProfile) {
+            return;
+        }
+
         const newName = nameInput.value.trim();
 
         if (!newName) {
@@ -134,7 +162,9 @@ class ProfileEditModal {
         }
 
         this.currentProfile.name = newName;
-        this.currentProfile.id = criarIdPerfil(newName);
+        if (!this.currentProfile.id) {
+            this.currentProfile.id = criarIdPerfil(newName);
+        }
 
         this.profileStorage.set(this.currentProfile);
 
@@ -144,6 +174,10 @@ class ProfileEditModal {
     }
 
     close() {
+        if (!this.modal) {
+            return;
+        }
+
         this.modal.hidden = true;
         this.currentProfile = null;
     }
@@ -157,7 +191,7 @@ function initProfileMenu() {
     const switchProfileBtn = document.querySelector('#switch-profile-btn');
     const profileEditModal = document.querySelector('#profile-edit-modal');
 
-    if (!profileMenuBtn || !dropdownMenu) {
+    if (!profileMenuBtn || !dropdownMenu || !editProfileBtn || !switchProfileBtn || !profileEditModal) {
         console.warn('Elementos do menu de perfil não encontrados');
         return;
     }
@@ -184,6 +218,10 @@ function initProfileMenu() {
     globalThis.addEventListener('profileUpdated', (e) => {
         const img = document.querySelector('.profile-icon');
         const profile = e.detail;
+        if (!img || !profile) {
+            return;
+        }
+
         img.src = normalizarCaminhoImagemPerfil(profile.image);
     });
 }
