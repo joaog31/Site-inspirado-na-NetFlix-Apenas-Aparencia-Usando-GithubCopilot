@@ -35,10 +35,20 @@
                 <i class="fas fa-bell icon"></i>
                 <span class="notification-badge">42</span>
             </div>
-            <a href="../index.html" class="profile-menu" aria-label="Perfil" style="text-decoration: none; color: inherit;">
+            <button class="profile-menu" type="button" aria-label="Abrir menu de perfil">
                 <img class="profile-icon" src="../ativos/perfis/profile1.svg" alt="Avatar do perfil" aria-hidden="true">
                 <i class="fas fa-caret-down icon profile-caret" aria-hidden="true"></i>
-            </a>
+            </button>
+            <div class="profile-dropdown-menu">
+                <button id="edit-profile-btn" class="profile-dropdown-item" type="button">
+                    <i class="fas fa-user-edit icon"></i>
+                    <span>Gerenciar Perfil</span>
+                </button>
+                <button id="switch-profile-btn" class="profile-dropdown-item" type="button">
+                    <i class="fas fa-sign-out-alt icon"></i>
+                    <span>Trocar de Perfil</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -65,8 +75,41 @@
         </div>
     </section>
 
-    <!-- ===========================
-         RODAPE
+    <!-- ===========================         MODAL DE EDIÇÃO DE PERFIL
+         =========================== -->
+    <div id="profile-edit-modal" class="profile-edit-modal" hidden>
+        <div class="profile-edit-content">
+            <div class="profile-edit-header">
+                <h2>Editar Perfil</h2>
+                <button class="profile-edit-close" type="button" aria-label="Fechar">✕</button>
+            </div>
+
+            <div class="profile-edit-body">
+                <div class="profile-edit-preview">
+                    <img class="profile-edit-current-img" src="../ativos/perfis/profile1.svg" alt="Preview do perfil">
+                </div>
+
+                <div class="profile-edit-form">
+                    <div class="form-group">
+                        <label for="profile-edit-name">Nome do perfil:</label>
+                        <input type="text" id="profile-edit-name" placeholder="Digite o nome do perfil" maxlength="20">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-edit-avatar-group">Escolha um avatar:</label>
+                        <div class="profile-edit-avatar-options" id="profile-edit-avatar-group"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-edit-footer">
+                <button class="profile-edit-cancel-btn btn-secondary" type="button">Cancelar</button>
+                <button class="profile-edit-save-btn btn-primary" type="button">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================="         RODAPE
          =========================== -->
     <footer>
         <div class="footer-content">
@@ -91,6 +134,7 @@
         </div>
     </footer>
 
+    <script type="module" src="js/perfil-menu.js"></script>
     <script type="module" src="js/filmes.js"></script>
     <script src="../js/compartilhado/tema.js" defer></script>
 </body>
