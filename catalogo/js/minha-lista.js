@@ -5,7 +5,7 @@
 import { categorias } from './dados.js';
 import { criarCarrossel } from './componentes/Carrossel.js';
 import { inicializarBusca } from './busca.js';
-import { ArmazenamentoPerfilAtivo, normalizarCaminhoImagemPerfil, obterIdPerfilAtivo } from './dominio/perfil.js';
+import { ArmazenamentoPerfilAtivo, normalizarCaminhoImagemPerfil, obterIdPerfilAtivo } from './dominio/perfil-ativo.js';
 import { obterChaveMinhaLista, criarIdObra, ArmazenamentoMinhaLista } from './dominio/minha-lista.js';
 
 /* ===========================

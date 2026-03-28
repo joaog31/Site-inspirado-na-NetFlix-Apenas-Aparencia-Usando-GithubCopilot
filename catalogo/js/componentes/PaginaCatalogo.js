@@ -2,7 +2,7 @@
     MODULO: PAGINA BASE DO CATALOGO
     =========================== */
 
-import { normalizarCaminhoImagemPerfil } from '../dominio/perfil.js';
+import { normalizarCaminhoImagemPerfil } from '../dominio/perfil-ativo.js';
 
 /* Atualiza informacoes de acessibilidade do menu de perfil */
 export class ProfileHeaderView {

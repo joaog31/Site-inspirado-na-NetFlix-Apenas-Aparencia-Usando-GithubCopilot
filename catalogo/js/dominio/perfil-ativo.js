@@ -1,6 +1,6 @@
 /* ===========================
-   DOMINIO DE PERFIL
-   =========================== */
+    DOMINIO DE PERFIL ATIVO
+    =========================== */
 
 export const CHAVE_NOME_PERFIL_ATIVO = 'perfilAtivoNome';
 export const CHAVE_IMAGEM_PERFIL_ATIVO = 'perfilAtivoImagem';

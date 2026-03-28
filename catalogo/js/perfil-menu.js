@@ -2,7 +2,7 @@
     MODULO: MENU DE PERFIL
     =========================== */
 
-import { criarIdPerfil, normalizarCaminhoImagemPerfil, ArmazenamentoPerfilAtivo } from './dominio/perfil.js';
+import { criarIdPerfil, normalizarCaminhoImagemPerfil, ArmazenamentoPerfilAtivo } from './dominio/perfil-ativo.js';
 
 const AVATAR_OPTIONS = [
     'ativos/perfis/profile1.svg',

@@ -1,6 +1,6 @@
 /* ===========================
-   DOMINIO DE GERENCIAMENTO DE PERFIS
-   =========================== */
+    DOMINIO DE CATALOGO DE PERFIS
+    =========================== */
 
 export const CHAVE_PERFIS = 'netflix-perfis';
 export const MAX_PERFIS = 6;
@@ -12,7 +12,7 @@ const PERFIS_PADRAO = [
     { name: 'Ana Clara', image: 'ativos/perfis/profile4.svg' }
 ];
 
-import { criarIdPerfil } from './perfil.js';
+import { criarIdPerfil } from './perfil-ativo.js';
 
 /* Gerencia a lista de perfis no localStorage */
 export class ArmazenamentoPerfis {

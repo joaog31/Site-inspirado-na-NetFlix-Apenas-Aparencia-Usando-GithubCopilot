@@ -6,7 +6,7 @@ import { categorias } from './dados.js';
 import { criarCarrossel } from './componentes/Carrossel.js';
 import { ProfileHeaderView, CatalogRenderer, CatalogPageApp } from './componentes/PaginaCatalogo.js';
 import { inicializarBusca } from './busca.js';
-import { ArmazenamentoPerfilAtivo } from './dominio/perfil.js';
+import { ArmazenamentoPerfilAtivo } from './dominio/perfil-ativo.js';
 
 /* ===========================
     CONFIGURACAO E CONSTANTES

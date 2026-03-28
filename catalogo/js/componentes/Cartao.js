@@ -4,7 +4,7 @@
 
 import { obterIdYouTube, obterPontuacaoRelevanciaAleatoria, obterDuracaoAleatoria, obterClassificacaoEtariaAleatoria } from '../utilitarios.js';
 import { criarIdObra, obterChaveMinhaLista, ArmazenamentoMinhaLista } from '../dominio/minha-lista.js';
-import { obterIdPerfilAtivo } from '../dominio/perfil.js';
+import { obterIdPerfilAtivo } from '../dominio/perfil-ativo.js';
 
 /* ===========================
     HELPERS DE DADOS E MARKUP

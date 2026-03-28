@@ -2,8 +2,8 @@
     MODULO: SELECAO DE PERFIS
     =========================== */
 
-import { ArmazenamentoPerfilAtivo, criarIdPerfil } from '../../catalogo/js/dominio/perfil.js';
-import { ArmazenamentoPerfis, MAX_PERFIS } from '../../catalogo/js/dominio/perfis.js';
+import { ArmazenamentoPerfilAtivo, criarIdPerfil } from '../../catalogo/js/dominio/perfil-ativo.js';
+import { ArmazenamentoPerfis, MAX_PERFIS } from '../../catalogo/js/dominio/catalogo-perfis.js';
 
 /* ===========================
     CONFIGURACAO E CONSTANTES
