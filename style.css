@@ -476,7 +476,7 @@ body.theme-light .modal-footer {
 .btn-delete {
     background: rgba(229, 9, 20, 0.2);
     border: 1px solid #e50914;
-    color: #ff6b75;
+    color: #fff;
     padding: 6px 10px;
     font-size: 0.75rem;
     border-radius: 4px;
@@ -536,7 +536,7 @@ body.theme-light .modal-footer {
 body.theme-light .form-group input {
     border-color: rgba(0, 0, 0, 0.2);
     background: rgba(0, 0, 0, 0.03);
-    color: #111;
+    color: var(--text-color);
 }
 
 .form-group input:focus {
